@@ -157,7 +157,7 @@ const Tenant2Sidebar = ({ children }) => {
             </li>*/}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/tenant-calendar-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />

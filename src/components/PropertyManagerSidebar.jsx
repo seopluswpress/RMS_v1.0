@@ -167,7 +167,7 @@ const PropertyManagerSidebar = ({ children }) => {
             </li>*/}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/propertymanager-calendar-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />

@@ -177,7 +177,7 @@ const PropertyOwner2Sidebar = ({ children }) => {
             */}
             <li>
               <NavLink
-                to='/payments1'
+                to='/propertyowner-calender-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />

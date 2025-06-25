@@ -144,7 +144,7 @@ const Sa2Sidebar = ({ children }) => {
                                     </li>
 
            
-            <li>
+           {/*} <li>
               <NavLink
                 to='/email'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -152,7 +152,7 @@ const Sa2Sidebar = ({ children }) => {
                 <Icon icon='mage:email' className='menu-icon' />
                 <span>Email</span>
               </NavLink>
-            </li>
+            </li>*/}
             {/*<li>
               <NavLink
                 to='/chat-message'
@@ -165,7 +165,7 @@ const Sa2Sidebar = ({ children }) => {
             */}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/superadmin-calender-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />

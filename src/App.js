@@ -105,6 +105,7 @@ import Tenant2Sidebar from "./components/Tenant2Sidebar";
 import Sa2Sidebar from "./components/Sa2Sidebar";
 import PropertyOwner2Sidebar from "./components/PropertyOwner2Sidebar";
 import PaymentsTenants from "./pages/PaymentsTenants";
+import CalendarMainLayer from "./components/CalendarMainLayer";
 function App() {
   return (
     <BrowserRouter>
@@ -138,7 +139,7 @@ function App() {
         
     
         <Route exact path='/payments1' element={<Payments1/>} />
-        <Route exact path='/calendar' element={<CalendarMainPage />} />
+        <Route exact path='/calendar-main' element={<CalendarMainPage />} />
         
      
         <Route exact path='/chat-empty' element={<ChatEmptyPage />} />
@@ -171,6 +172,26 @@ function App() {
     <CompanyLayer />
   </PropertyOwner2Sidebar>
 } />
+<Route exact path='/superadmin-calender-main' element={
+  <Sa2Sidebar>
+    <CalendarMainLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/propertyowner-calender-main' element={
+  <PropertyOwner2Sidebar>
+    <CalendarMainLayer />
+  </PropertyOwner2Sidebar>
+} />
+<Route exact path='/propertymanager-calendar-main' element={
+  <PropertyManager2Sidebar>
+    <CalendarMainLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/tenant-calendar-main' element={
+  <Tenant2Sidebar>
+    <CalendarMainLayer/>
+  </Tenant2Sidebar>
+}/>
         
         <Route exact path='/email' element={<EmailPage />} />
         <Route exact path='/faq' element={<FaqPage />} />
