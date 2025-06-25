@@ -1,0 +1,199 @@
+/* Navbar styles */
+
+/* Clerk sign-in card title override */
+.cl-headerTitle {
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  margin-bottom: 0.5rem !important;
+  white-space: nowrap !important;
+  max-width: 100% !important;
+}
+
+.navbar-custom {
+    background-color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar-title {
+    color: #000000;
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  /* Button Utility Classes */
+  .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    text-decoration: none;
+    border: none;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+  
+  .btn-primary {
+    background-color: #CB9800;
+    color: #ffffff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #96351E;
+  }
+  
+  .btn-success {
+    background-color: #96351E;
+    color: #622020;
+  }
+  
+  .btn-success:hover {
+    background-color: #CB9800; /* A slightly darker green */
+  }
+  
+  /* Center the form on the page */
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+  }
+  
+  /* Card style for the form */
+  .auth-card {
+    background: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 350px;
+  }
+  
+
+  
+  /* Input fields */
+  .auth-card .form-label {
+    color: #96351E;
+    font-weight: 500;
+  }
+  .auth-card .form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #CB9800;
+    margin-bottom: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    transition: border 0.2s;
+  }
+  .auth-card .form-control:focus {
+    border-color: #96351E;
+    outline: none;
+  }
+  
+  /* Auth button */
+  .auth-btn {
+    background-color: #CB9800;
+    color: #fff;
+    padding: 0.6rem 0;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(203,152,0,0.08);
+    cursor: pointer;
+  }
+  .auth-btn:hover {
+    background-color: #96351E;
+    transform: translateY(-2px) scale(1.03);
+  }
+  
+  /* Navbar right button group */
+  .navbar-btn-group {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  /* Navbar buttons */
+  .navbar-btn {
+    background-color: #CB9800;
+    color: #fff !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem !important;
+    text-decoration: none !important;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(203,152,0,0.08);
+    margin: 0;
+  }
+  
+  .navbar-btn:hover {
+    background-color: #96351E;
+    color: #fff !important;
+    transform: translateY(-2px) scale(1.03);
+    text-decoration: none !important;
+    box-shadow: 0 4px 24px rgba(150, 53, 30, 0.35); /* Stronger shadow for navbar buttons */
+  }
+  
+  .auth-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #CB9800;
+    margin-bottom: 0;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    transition: border 0.2s;
+    box-sizing: border-box;
+  }
+  .auth-input:focus {
+    border-color: #96351E;
+    outline: none;
+  }
+  
+  .auth-field {
+    margin-bottom: 1rem;
+  }
+  .auth-label {
+    color: #96351E;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-logo-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 36px;
+  }
+  
+  .auth-logo-img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0); /* Center horizontally, half in/out vertically */
+    width: 80px;
+    height: 80px;
+    z-index: 2;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  
+  .auth-card {
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+  
