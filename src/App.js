@@ -4,13 +4,12 @@ import MaintenancePage from "./pages/MaintenancePageTenant";
 
 
 import EmailPage from "./pages/EmailPage";
-import AddUserPage from "./pages/AddUserPage";
-import AlertPage from "./pages/AlertPage";
-import AssignRolePage from "./pages/AssignRolePage";
+
+
 
 
 import CalendarMainPage from "./pages/CalendarMainPage";
-import CardPage from "./pages/CardPage";
+
 
 import ChatEmptyPage from "./pages/ChatEmptyPage";
 import ChatMessagePage from "./pages/ChatMessagePage";
@@ -18,22 +17,19 @@ import ChatProfilePage from "./pages/ChatProfilePage";
 
 
 import ColorsPage from "./pages/ColorsPage";
-import ColumnChartPage from "./pages/ColumnChartPage";
+
 import CompanyLayer from "./components/CompanyLayer";
 import PropertyManager2Sidebar from "./components/PropertyManager2Sidebar";
 import CompanyPage from "./pages/CompanyPage";
-import CurrenciesPage from "./pages/CurrenciesPage";
-import DropdownPage from "./pages/DropdownPage";
-import ErrorPage from "./pages/ErrorPage";
+
+
 import SuperAdminCombinedDashboard from "./components/SuperAdminCombinedDashboard";
 import PropertyManagerCombinedDashboard from "./components/PropertyManagerCombinedDashboard";
 import FaqPage from "./pages/FaqPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import FormLayoutPage from "./pages/FormLayoutPage";
-import FormValidationPage from "./pages/FormValidationPage";
+
 import FormPage from "./pages/FormPage";
-import GalleryPage from "./pages/GalleryPage";
-import ImageGeneratorPage from "./pages/ImageGeneratorPage";
 import ImageUploadPage from "./pages/ImageUploadPage";
 import InvoiceAddPage from "./pages/InvoiceAddPage";
 import InvoiceEditPage from "./pages/InvoiceEditPage";
@@ -43,30 +39,26 @@ import KanbanPage from "./pages/KanbanPage";
 import LanguagePage from "./pages/LanguagePage";
 import SignUp from './pages1/SignUp';
 
-import ListPage from "./pages/ListPage";
-import MarketplaceDetailsPage from "./pages/MarketplaceDetailsPage";
-import MarketplacePage from "./pages/MarketplacePage";
+
+
+
 import NotificationAlertPage from "./pages/NotificationAlertPage";
 import NotificationPage from "./pages/NotificationPage";
-import PaginationPage from "./pages/PaginationPage";
+
 import PaymentGatewayPage from "./pages/PaymentGatewayPage";
 import Paymentpage from './components/payment/PaymentPage'
 import PaymentSuccess from './components/payment/PaymentSuccess'
 import CheckoutForm from './components/payment/CheckoutForm'
 
 import PortfolioPage from "./pages/PortfolioPage";
-import PricingPage from "./pages/PricingPage";
-import ProgressPage from "./pages/ProgressPage";
 import Payments1 from "./pages1/Payments1";
 
-import RoleAccessPage from "./pages/RoleAccessPage";
+
 import SignIn from './pages1/SignIn';
 import StarRatingPage from "./pages/StarRatingPage";
-import StarredPage from "./pages/StarredPage";
-import SwitchPage from "./pages/SwitchPage";
-import TableBasicPage from "./pages/TableBasicPage";
-import TableDataPage from "./pages/TableDataPage";
-import TabsPage from "./pages/TabsPage";
+
+
+
 
 import TermsConditionPage from "./pages/TermsConditionPage";
 
@@ -84,13 +76,10 @@ import RouteScrollToTop from "./helper/RouteScrollToTop";
 
 
 import PaymentPage from "./components/payment/PaymentPage";
-import GalleryGridPage from "./pages/GalleryGridPage";
-import GalleryMasonryPage from "./pages/GalleryMasonryPage";
-import GalleryHoverPage from "./pages/GalleryHoverPage";
+
 
 import TestimonialsPage from "./pages/TestimonialsPage";
-import ComingSoonPage from "./pages/ComingSoonPage";
-import AccessDeniedPage from "./pages/AccessDeniedPage";
+
 
 import PropertyOwnerSidebar from "./components/PropertyOwnerSidebar";
 
@@ -142,15 +131,15 @@ function App() {
        
 
         {/* SL */}
-        <Route exact path='/add-user' element={<AddUserPage />} />
-        <Route exact path='/alert' element={<AlertPage />} />
-        <Route exact path='/assign-role' element={<AssignRolePage />} />
+        
+        
+    
        
         
     
         <Route exact path='/payments1' element={<Payments1/>} />
         <Route exact path='/calendar' element={<CalendarMainPage />} />
-        <Route exact path='/card' element={<CardPage />} />
+        
      
         <Route exact path='/chat-empty' element={<ChatEmptyPage />} />
         <Route exact path='/chat-message' element={<ChatMessagePage />} />
@@ -159,9 +148,9 @@ function App() {
         <Route path="/pay/:invoiceId/" element={<Paymentpage/>} />
         <Route path="/payment-success/:invoiceId" element={<PaymentSuccess />} />
         <Route exact path='/colors' element={<ColorsPage />} />
-        <Route exact path='/column-chart' element={<ColumnChartPage />} />
+        
         <Route exact path='/company' element={<CompanyPage />} />
-        <Route exact path='/currencies' element={<CurrenciesPage />} />
+        
         <Route exact path='/propertymanagercompanylayer' element={
   <PropertyManager2Sidebar>
     <CompanyLayer />
@@ -182,29 +171,25 @@ function App() {
     <CompanyLayer />
   </PropertyOwner2Sidebar>
 } />
-        <Route exact path='/dropdown' element={<DropdownPage />} />
+        
         <Route exact path='/email' element={<EmailPage />} />
         <Route exact path='/faq' element={<FaqPage />} />
         <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
         <Route exact path='/form-layout' element={<FormLayoutPage />} />
-        <Route exact path='/form-validation' element={<FormValidationPage />} />
+        
         <Route exact path='/form' element={<FormPage />} />
 
-        <Route exact path='/gallery' element={<GalleryPage />} />
-        <Route exact path='/gallery-grid' element={<GalleryGridPage />} />
-        <Route exact path='/gallery-masonry' element={<GalleryMasonryPage />} />
-        <Route exact path='/gallery-hover' element={<GalleryHoverPage />} />
-
+    
         
        
 
         <Route exact path='/testimonials' element={<TestimonialsPage />} />
-        <Route exact path='/coming-soon' element={<ComingSoonPage />} />
-        <Route exact path='/access-denied' element={<AccessDeniedPage />} />
+    
+      
         <Route exact path='/maintenance' element={<MaintenancePage />} />
         
 
-        <Route exact path='/image-generator' element={<ImageGeneratorPage />} />
+        
         <Route exact path='/image-upload' element={<ImageUploadPage />} />
         <Route exact path='/invoice-add' element={<InvoiceAddPage />} />
         <Route exact path='/invoice-edit' element={<InvoiceEditPage />} />
@@ -213,25 +198,21 @@ function App() {
         <Route exact path='/kanban' element={<KanbanPage />} />
         <Route exact path='/languages' element={<LanguagePage />} />
         
-        <Route exact path='/list' element={<ListPage />} />
-        <Route
-          exact
-          path='/marketplace-details'
-          element={<MarketplaceDetailsPage />}
-        />
-        <Route exact path='/marketplace' element={<MarketplacePage />} />
+        
+       
+        
         <Route
           exact
           path='/notification-alert'
           element={<NotificationAlertPage />}
         />
         <Route exact path='/notification' element={<NotificationPage />} />
-        <Route exact path='/pagination' element={<PaginationPage />} />
+        
         <Route exact path='/payment-gateway' element={<PaymentGatewayPage />} />
       
         <Route exact path='/portfolio' element={<PortfolioPage />} />
-        <Route exact path='/pricing' element={<PricingPage />} />
-        <Route exact path='/progress' element={<ProgressPage />} />
+        
+      
      
 
         <Route path='/superadmin' element={<SuperAdminSidebar />}>
@@ -246,13 +227,13 @@ function App() {
         <Route path='/propertymanager' element={<PropertyManagerSidebar />} >
           <Route index element={<PropertyManagerCombinedDashboard />} />
         </Route> 
-        <Route exact path='/role-access' element={<RoleAccessPage />} />
+    
         <Route exact path='/star-rating' element={<StarRatingPage />} />
-        <Route exact path='/starred' element={<StarredPage />} />
-        <Route exact path='/switch' element={<SwitchPage />} />
-        <Route exact path='/table-basic' element={<TableBasicPage />} />
-        <Route exact path='/table-data' element={<TableDataPage />} />
-        <Route exact path='/tabs' element={<TabsPage />} />
+        
+        
+        
+        
+        
         
         <Route exact path='/terms-condition' element={<TermsConditionPage />} />
         
@@ -277,7 +258,7 @@ function App() {
        
       
 
-        <Route exact path='*' element={<ErrorPage />} />
+        
       </Routes>
     </BrowserRouter>
   );
