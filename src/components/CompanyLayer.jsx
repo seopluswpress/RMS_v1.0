@@ -10,7 +10,7 @@ const CompanyLayer = () => {
                 <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/notification')}>Notification</button>
                 <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/notification-alert')}>Notification Alert</button>
                 <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/theme-settings')}>Theme</button>
-                <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/currencies')}>Currencies</button>
+            
                 <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/languages')}>Languages</button>
                 <button className="btn" style={{backgroundColor:'#007bff',color:'#fff'}} onClick={() => navigate('/payment-gateway')}>Payment Gateway</button>
             </div>

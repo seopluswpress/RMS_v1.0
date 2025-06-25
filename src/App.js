@@ -8,7 +8,7 @@ import EmailPage from "./pages/EmailPage";
 
 
 
-import CalendarMainPage from "./pages/CalendarMainPage";
+
 
 
 import ChatEmptyPage from "./pages/ChatEmptyPage";
@@ -27,9 +27,9 @@ import SuperAdminCombinedDashboard from "./components/SuperAdminCombinedDashboar
 import PropertyManagerCombinedDashboard from "./components/PropertyManagerCombinedDashboard";
 import FaqPage from "./pages/FaqPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import FormLayoutPage from "./pages/FormLayoutPage";
 
-import FormPage from "./pages/FormPage";
+
+
 import ImageUploadPage from "./pages/ImageUploadPage";
 import InvoiceAddPage from "./pages/InvoiceAddPage";
 import InvoiceEditPage from "./pages/InvoiceEditPage";
@@ -50,12 +50,12 @@ import Paymentpage from './components/payment/PaymentPage'
 import PaymentSuccess from './components/payment/PaymentSuccess'
 import CheckoutForm from './components/payment/CheckoutForm'
 
-import PortfolioPage from "./pages/PortfolioPage";
+
 import Payments1 from "./pages1/Payments1";
 
 
 import SignIn from './pages1/SignIn';
-import StarRatingPage from "./pages/StarRatingPage";
+
 
 
 
@@ -138,7 +138,7 @@ function App() {
         
     
         <Route exact path='/payments1' element={<Payments1/>} />
-        <Route exact path='/calendar' element={<CalendarMainPage />} />
+    
         
      
         <Route exact path='/chat-empty' element={<ChatEmptyPage />} />
@@ -175,9 +175,9 @@ function App() {
         <Route exact path='/email' element={<EmailPage />} />
         <Route exact path='/faq' element={<FaqPage />} />
         <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
-        <Route exact path='/form-layout' element={<FormLayoutPage />} />
         
-        <Route exact path='/form' element={<FormPage />} />
+        
+        
 
     
         
@@ -210,7 +210,7 @@ function App() {
         
         <Route exact path='/payment-gateway' element={<PaymentGatewayPage />} />
       
-        <Route exact path='/portfolio' element={<PortfolioPage />} />
+        
         
       
      
@@ -228,7 +228,7 @@ function App() {
           <Route index element={<PropertyManagerCombinedDashboard />} />
         </Route> 
     
-        <Route exact path='/star-rating' element={<StarRatingPage />} />
+    
         
         
         
