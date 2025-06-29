@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import '../../dashboard.css';
 
 const Tenant2Sidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
