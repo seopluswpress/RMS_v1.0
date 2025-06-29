@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import ThemeToggleButton from "../helper/ThemeToggleButton";
 import SuperAdminCombinedDashboard from "./SuperAdminCombinedDashboard";
-
+import '../dashboard.css';
 const SuperAdminSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
@@ -146,15 +146,7 @@ const SuperAdminSidebar = ({ children }) => {
                                     </li>
 
            
-            <li>
-              <NavLink
-                to='/email'
-                className={(navData) => (navData.isActive ? "active-page" : "")}
-              >
-                <Icon icon='mage:email' className='menu-icon' />
-                <span>Email</span>
-              </NavLink>
-            </li>
+            
             {/*<li>
               <NavLink
                 to='/chat-message'
@@ -173,57 +165,7 @@ const SuperAdminSidebar = ({ children }) => {
                 <span>Calendar</span>
               </NavLink>
             </li>
-           
 
-          
-            
-         
-             
-
-          
-               
-           
-       
-  
-           
-     
-
-           
-
-              
-
-       
-          
-          
-                
-               
-         
-        
-        
-
-      
-            
-         
-                
-             
-
-                
-              
-
-          
-              
-
-           
-         
-             
-
-         
-
-             
-        
-
-
-     
 
             {/* Settings Dropdown */}
             <li>
@@ -914,12 +856,14 @@ const SuperAdminSidebar = ({ children }) => {
           </div>
         </div>
 
-        {/* dashboard-main-body */}
-        <div className='dashboard-main-body'>{children}</div>
+       {/* dashboard-main-body */}
+       <div className='dashboard-main-body'>
+          <SuperAdminCombinedDashboard />
+          {children}
+        </div>
 
         {/* Footer section */}
         <footer className='d-footer'>
-          <SuperAdminCombinedDashboard />
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
               <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>

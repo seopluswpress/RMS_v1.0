@@ -93,6 +93,7 @@ import SuperAdminSidebar from "./components/SuperAdminSidebar";
 import MaintenancePageTenant from "./pages/MaintenancePageTenant";
 import PropertyList from "./pages/PropertyListPropertyOwner";
 import TenantsList from "./pages/TenantsList";
+import OwnersList from "./pages/OwnersListPage";
 import LeasePropertyOwner from "./pages/LeasePropertyOwner";
 import InvoicePropertyOwner from "./pages/InvoicePropertyOwner";
 import MaintainancePropertyOwner from "./pages/MaintainancePropertyOwner";
@@ -138,6 +139,7 @@ function App() {
         
     
         <Route exact path='/payments1' element={<Payments1/>} />
+        <Route exact path='/owners-list' element={<OwnersListPage/>} />
     
         
      

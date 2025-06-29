@@ -12,7 +12,7 @@
 }
 
 .navbar-custom {
-    background-color: #fff;
+    background-color: #f8d4cc;
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -20,7 +20,7 @@
   }
   
   .navbar-title {
-    color: #000000;
+    color: #ffffff;
     font-size: 2rem;
     font-weight: bold;
     text-decoration: none;
@@ -196,4 +196,14 @@
     position: relative;
     z-index: 1;
   }
-  
+
+/* --- Sticky Sidebar Footer Styles --- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.d-footer {
+  margin-top: auto;
+}

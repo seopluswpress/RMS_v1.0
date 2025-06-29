@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import '../dashboard.css';
 import { Link, NavLink, useLocation } from "react-router-dom";
 import ThemeToggleButton from "../helper/ThemeToggleButton";
 const Sa2Sidebar = ({ children }) => {
@@ -85,7 +86,7 @@ const Sa2Sidebar = ({ children }) => {
   };
 
   return (
-    <section className={mobileMenu ? "overlay active" : "overlay "}>
+    <section className={mobileMenu ? "overlay active" : "overlay"}>
       {/* sidebar */}
       <aside
         className={
@@ -144,7 +145,7 @@ const Sa2Sidebar = ({ children }) => {
                                     </li>
 
            
-            <li>
+            {/*<li>
               <NavLink
                 to='/email'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -153,7 +154,7 @@ const Sa2Sidebar = ({ children }) => {
                 <span>Email</span>
               </NavLink>
             </li>
-            {/*<li>
+            <li>
               <NavLink
                 to='/chat-message'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -244,7 +245,7 @@ const Sa2Sidebar = ({ children }) => {
       </aside>
 
       <main
-        className={sidebarActive ? "dashboard-main active" : "dashboard-main"}
+        className={sidebarActive ? "dashboard-main active sidebar-layout" : "dashboard-main sidebar-layout"}
       >
         <div className='navbar-header'>
           <div className='row align-items-center justify-content-between'>
