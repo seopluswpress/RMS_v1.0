@@ -19,12 +19,12 @@ import ChatProfilePage from "./pages/ChatProfilePage";
 import ColorsPage from "./pages/ColorsPage";
 
 import CompanyLayer from "./components/CompanyLayer";
-import PropertyManager2Sidebar from "./components/PropertyManager2Sidebar";
+import PropertyManager2Sidebar from "./components/PropertyManager/PropertyManager2Sidebar";
 import CompanyPage from "./pages/CompanyPage";
 
 
-import SuperAdminCombinedDashboard from "./components/SuperAdminCombinedDashboard";
-import PropertyManagerCombinedDashboard from "./components/PropertyManagerCombinedDashboard";
+import SuperAdminCombinedDashboard from './components/Superadmin/SuperAdminCombinedDashboard';
+import PropertyManagerCombinedDashboard from "./components/PropertyManager/PropertyManagerCombinedDashboard";
 import FaqPage from "./pages/FaqPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
@@ -81,15 +81,15 @@ import PaymentPage from "./components/payment/PaymentPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
 
 
-import PropertyOwnerSidebar from "./components/PropertyOwnerSidebar";
+import PropertyOwnerSidebar from "./components/PropertyOwner/PropertyOwnerSidebar";
 
-import PropertyOwnerCombinedDashboard from './components/PropertyOwnerCombinedDashboard';
-import TenantSidebar from "./components/TenantSidebar";
+import PropertyOwnerCombinedDashboard from './components/PropertyOwner/PropertyOwnerCombinedDashboard';
+import TenantSidebar from "./components/Tenant/TenantSidebar";
 
-import TenantCombinedDashboard from './components/TenantCombinedDashboard';
-import PropertyManagerSidebar from "./components/PropertyManagerSidebar";
+import TenantCombinedDashboard from './components/Tenant/TenantCombinedDashboard';
+import PropertyManagerSidebar from "./components/PropertyManager/PropertyManagerSidebar";
 
-import SuperAdminSidebar from "./components/SuperAdminSidebar";
+import SuperAdminSidebar from "./components/Superadmin/SuperAdminSidebar";
 import MaintenancePageTenant from "./pages/MaintenancePageTenant";
 import PropertyList from "./pages/PropertyListPropertyOwner";
 import TenantsList from "./pages/TenantsList";
@@ -102,9 +102,9 @@ import PropertyListPropertyOwner from "./pages/PropertyListPropertyOwner";
 import PropertyListPropertyManager from "./pages/PropertyListPropertyManager";
 import MaintainancePropertyManager from "./pages/MaintainancePropertyManager";
 import InvoiceTenant from "./pages/InvoiceTenant";
-import Tenant2Sidebar from "./components/Tenant2Sidebar";
-import Sa2Sidebar from "./components/Sa2Sidebar";
-import PropertyOwner2Sidebar from "./components/PropertyOwner2Sidebar";
+import Tenant2Sidebar from "./components/Tenant/Tenant2Sidebar";
+import Sa2Sidebar from "./components/Superadmin/Sa2Sidebar";
+import PropertyOwner2Sidebar from "./components/PropertyOwner/PropertyOwner2Sidebar";
 import PaymentsTenants from "./pages/PaymentsTenants";
 function App() {
   return (
@@ -114,7 +114,7 @@ function App() {
         <Route exact path='/signup' element={<SignUp />} />
         <Route exact path='/signin' element={<SignIn />} />
         <Route exact path='/tenant-dashboard' element={<TenantSidebar />} />
-        <Route exact path='/super-admin-dashboard' element={<SuperAdminSidebar />} />
+        <Route exact path='/super-admin-dashboard' element={<SuperAdminSidebar><SuperAdminCombinedDashboard /></SuperAdminSidebar>} />
         <Route exact path='/propertyowner-dashboard' element={<PropertyOwnerSidebar />} />
         <Route exact path='/propertymanager-dashboard' element={<PropertyManagerSidebar />} />
 

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-import TenantCombinedDashboard from "./TenantCombinedDashboard";
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
 
-const TenantSidebar = ({ children }) => {
+const Tenant2Sidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -108,7 +107,7 @@ const TenantSidebar = ({ children }) => {
         <div>
           <Link to='/' className='sidebar-logo'>
             <img
-              src='assets/images/logo.png'
+              src='/assets/images/logo.png'
               alt='site logo'
               className='light-logo'
             />
@@ -127,7 +126,7 @@ const TenantSidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/tenant-dashboard' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
+              <Link to='/tenant-dashboard'>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
@@ -184,15 +183,62 @@ const TenantSidebar = ({ children }) => {
                           </Link>
                           
                         </li>
-                        {/*Payment Dropdown*/}
-                        <li>
-                          <Link to='/payment-list-tenant' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
+
+            <li>
+                          <Link to='/payment-list-tenant'>
                             <Icon icon='mdi:cash' className='menu-icon' />
-                            <span>Payment</span>
+                            <span>Payments</span>
                           </Link>
+                          
                         </li>
+
+          
+               
+           
+       
+  
+           
+     
+
+           
+
+              
+
+       
+          
+          
+                
+               
+         
+        
+        
+
+      
+            
+         
+                
+             
+
+                
+              
+
+          
+              
+
+           
+         
+             
+
+         
+
+             
+        
+
+
+     
+
             {/* Settings Dropdown */}
-            <li >
+            <li className>
               <Link to='/tenantcompanylayer'>
                 <Icon
                   icon='icon-park-outline:setting-two'
@@ -200,10 +246,9 @@ const TenantSidebar = ({ children }) => {
                 />
                 <span>Settings</span>
               </Link>
-              
          
-             
-            
+     
+          
             </li>
           </ul>
         </div>
@@ -883,10 +928,10 @@ const TenantSidebar = ({ children }) => {
 
         {/* Footer section */}
         <footer className='d-footer'>
-          <TenantCombinedDashboard />
+          
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
-              <p className='mb-0'>© 2025 Rental Management System. All Rights Reserved.</p>
+              <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
             </div>
            
           </div>
@@ -896,4 +941,4 @@ const TenantSidebar = ({ children }) => {
   );
 };
 
-export default TenantSidebar;
+export default Tenant2Sidebar;

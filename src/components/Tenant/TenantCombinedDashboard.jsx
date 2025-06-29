@@ -1,8 +1,8 @@
 import React from "react";
 // Import components from various dashboards (AI, CRM, etc.)
 
-import UnitCountEight from "./child/UnitCountEight"; // CRM
-import RecentTransactionOne from "./child/RecentTransactionOne"; // CRM
+import UnitCountEight from "../child/UnitCountEight"; // CRM
+import RecentTransactionOne from "../child/RecentTransactionOne"; // CRM
 
 const TenantCombinedDashboard = () => (
   <div>

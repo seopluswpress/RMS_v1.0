@@ -1,5 +1,5 @@
 import React from "react";
-import Tenant2Sidebar from "../components/Tenant2Sidebar";
+import Tenant2Sidebar from "../components/Tenant/Tenant2Sidebar";
 import Maintainance from '../pages1/Maintenance'
 
 const MaintenancePageTenant = () => (

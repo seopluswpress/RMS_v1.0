@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-import PropertyOwnerCombinedDashboard from "./PropertyOwnerCombinedDashboard";
-
-const PropertyOwnerSidebar = ({ children }) => {
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import SuperAdminCombinedDashboard from "./SuperAdminCombinedDashboard";
+import '../../dashboard.css';
+const SuperAdminSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -127,7 +127,7 @@ const PropertyOwnerSidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/propertyowner-dashboard'>
+              <Link to='/super-admin-dashboard'>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
@@ -136,36 +136,17 @@ const PropertyOwnerSidebar = ({ children }) => {
               </Link>
               
             </li>
-            <li>
-              <NavLink to='/property-list-property-owner'>
-                <Icon icon='material-symbols:home-work-outline' className='menu-icon' />
-                <span>property</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to='/tenant-list'>
-                <Icon icon='mdi:account-group-outline' className='menu-icon' />
-                <span>tenant</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to='/lease-list'>
-                <Icon icon='mdi:file-document-outline' className='menu-icon' />
-                <span>lease</span>
-              </NavLink>
-            </li>
 
+                           <li>
+                                      <Link to='/owner-list'>
+                                        <Icon icon='mdi:account-tie' className='menu-icon' />
+                                        <span>Property owner</span>
+                                      </Link>
+                                      
+                                    </li>
 
            
-            {/*<li>
-              <NavLink
-                to='/email'
-                className={(navData) => (navData.isActive ? "active-page" : "")}
-              >
-                <Icon icon='mage:email' className='menu-icon' />
-                <span>Email</span>
-              </NavLink>
-            </li>*/}
+            
             {/*<li>
               <NavLink
                 to='/chat-message'
@@ -174,104 +155,32 @@ const PropertyOwnerSidebar = ({ children }) => {
                 <Icon icon='bi:chat-dots' className='menu-icon' />
                 <span>Chat</span>
               </NavLink>
-            </li>
-            */}
+            </li>*/}
             <li>
               <NavLink
-                to='/payments1'
+                to='/calendar-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />
                 <span>Calendar</span>
               </NavLink>
             </li>
-           
 
-            {/* Invoice Dropdown */}
-            <li>
-                          <Link to='/invoice-list-property-owner'>
-                            <Icon icon='hugeicons:invoice-03' className='menu-icon' />
-                            <span>Invoice</span>
-                          </Link>
-                          
-                        </li>
-            
-         
-               <li>
-                          <Link to='/MaintainancePagePropertyOwner'>
-                            <Icon icon='mdi:wrench-outline' className='menu-icon' />
-                            <span>maintainace request</span>
-                          </Link>
-                          
-                        </li>
-                        <li>
-                          <Link to='/property-manager-list'>
-                            <Icon icon='mdi:account-cog' className='menu-icon' />
-                            <span>property manager</span>
-                          </Link>
-                          
-                        </li>
-
-          
-               
-           
-       
-  
-           
-     
-
-           
-
-              
-
-       
-          
-          
-                
-               
-         
-        
-        
-
-      
-            
-         
-                
-             
-
-                
-              
-
-          
-              
-
-           
-         
-             
-
-         
-
-             
-        
-
-
-     
 
             {/* Settings Dropdown */}
             <li>
-              <Link to='/propertyownercompanylayer'>
+              <Link to='/superadmincompanylayer'>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
               </Link>
-           
-            
-               
-           
              
-                  
+         
+           
+       
+            
          
             </li>
           </ul>
@@ -947,12 +856,13 @@ const PropertyOwnerSidebar = ({ children }) => {
           </div>
         </div>
 
-        {/* dashboard-main-body */}
-        <div className='dashboard-main-body'>{children}</div>
+       {/* dashboard-main-body */}
+       <div className='dashboard-main-body'>
+          {children}
+        </div>
 
         {/* Footer section */}
         <footer className='d-footer'>
-          <PropertyOwnerCombinedDashboard />
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
               <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
@@ -964,4 +874,4 @@ const PropertyOwnerSidebar = ({ children }) => {
   );
 };
 
-export default PropertyOwnerSidebar;
+export default SuperAdminSidebar;

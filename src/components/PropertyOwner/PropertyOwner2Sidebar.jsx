@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import '../dashboard.css';
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-const Sa2Sidebar = ({ children }) => {
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import '../../dashboard.css';
+
+const PropertyOwner2Sidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -126,7 +127,7 @@ const Sa2Sidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/super-admin-dashboard'>
+              <Link to='/propertyowner-dashboard'>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
@@ -135,17 +136,28 @@ const Sa2Sidebar = ({ children }) => {
               </Link>
               
             </li>
+            <li>
+              <NavLink to='/property-list-property-owner'>
+                <Icon icon='material-symbols:home-work-outline' className='menu-icon' />
+                <span>property</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='/tenant-list'>
+                <Icon icon='mdi:account-group-outline' className='menu-icon' />
+                <span>tenant</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to='/lease-list'>
+                <Icon icon='mdi:file-document-outline' className='menu-icon' />
+                <span>lease</span>
+              </NavLink>
+            </li>
 
-                           <li>
-                                      <Link to='/property-owner-list'>
-                                        <Icon icon='mdi:account-tie' className='menu-icon' />
-                                        <span>Property owner</span>
-                                      </Link>
-                                      
-                                    </li>
 
            
-            {/*<li>
+           {/*<li>
               <NavLink
                 to='/email'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -153,8 +165,8 @@ const Sa2Sidebar = ({ children }) => {
                 <Icon icon='mage:email' className='menu-icon' />
                 <span>Email</span>
               </NavLink>
-            </li>
-            <li>
+            </li>*/}
+            {/*<li>
               <NavLink
                 to='/chat-message'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -166,7 +178,7 @@ const Sa2Sidebar = ({ children }) => {
             */}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/payments1'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />
@@ -175,10 +187,30 @@ const Sa2Sidebar = ({ children }) => {
             </li>
            
 
-          
+            {/* Invoice Dropdown */}
+            <li>
+                          <Link to='/invoice-list-property-owner'>
+                            <Icon icon='hugeicons:invoice-03' className='menu-icon' />
+                            <span>Invoice</span>
+                          </Link>
+                          
+                        </li>
             
          
-             
+               <li>
+                          <Link to='/MaintainancePagePropertyOwner'>
+                            <Icon icon='mdi:wrench-outline' className='menu-icon' />
+                            <span>maintainace request</span>
+                          </Link>
+                          
+                        </li>
+                        <li>
+                          <Link to='/property-manager-list'>
+                            <Icon icon='mdi:account-cog' className='menu-icon' />
+                            <span>property manager</span>
+                          </Link>
+                          
+                        </li>
 
           
                
@@ -227,18 +259,20 @@ const Sa2Sidebar = ({ children }) => {
 
             {/* Settings Dropdown */}
             <li>
-              <Link to='/superadmincompanylayer'>
+              <Link to='/propertyownercompanylayer'>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
               </Link>
-
               
-               
-               
-            
+             
+             
+             
+          
+         
+      
             </li>
           </ul>
         </div>
@@ -918,11 +952,12 @@ const Sa2Sidebar = ({ children }) => {
 
         {/* Footer section */}
         <footer className='d-footer'>
-          
+       
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
               <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
             </div>
+            
           </div>
         </footer>
       </main>
@@ -930,4 +965,4 @@ const Sa2Sidebar = ({ children }) => {
   );
 };
 
-export default Sa2Sidebar;
+export default PropertyOwner2Sidebar;

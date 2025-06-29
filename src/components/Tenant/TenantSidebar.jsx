@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-import SuperAdminCombinedDashboard from "./SuperAdminCombinedDashboard";
-import '../dashboard.css';
-const SuperAdminSidebar = ({ children }) => {
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import TenantCombinedDashboard from "./TenantCombinedDashboard";
+
+const TenantSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -127,7 +127,7 @@ const SuperAdminSidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/super-admin-dashboard'>
+              <Link to='/tenant-dashboard' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
@@ -137,16 +137,16 @@ const SuperAdminSidebar = ({ children }) => {
               
             </li>
 
-                           <li>
-                                      <Link to='/owner-list'>
-                                        <Icon icon='mdi:account-tie' className='menu-icon' />
-                                        <span>Property owner</span>
-                                      </Link>
-                                      
-                                    </li>
-
            
-            
+            {/*<li>
+              <NavLink
+                to='/email'
+                className={(navData) => (navData.isActive ? "active-page" : "")}
+              >
+                <Icon icon='mage:email' className='menu-icon' />
+                <span>Email</span>
+              </NavLink>
+            </li>*/}
             {/*<li>
               <NavLink
                 to='/chat-message'
@@ -165,23 +165,45 @@ const SuperAdminSidebar = ({ children }) => {
                 <span>Calendar</span>
               </NavLink>
             </li>
+           
 
-
-            {/* Settings Dropdown */}
+            {/* Invoice Dropdown */}
             <li>
-              <Link to='/superadmincompanylayer'>
+                          <Link to='/invoice-list-tenant'>
+                            <Icon icon='hugeicons:invoice-03' className='menu-icon' />
+                            <span>Invoice</span>
+                          </Link>
+                          
+                        </li>
+            
+         
+               <li>
+                          <Link to='/MaintenancePageTenant'>
+                            <Icon icon='mdi:wrench-outline' className='menu-icon' />
+                            <span>maintainace request</span>
+                          </Link>
+                          
+                        </li>
+                        {/*Payment Dropdown*/}
+                        <li>
+                          <Link to='/payment-list-tenant' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
+                            <Icon icon='mdi:cash' className='menu-icon' />
+                            <span>Payment</span>
+                          </Link>
+                        </li>
+            {/* Settings Dropdown */}
+            <li >
+              <Link to='/tenantcompanylayer'>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
               </Link>
+              
+         
              
-         
-           
-       
             
-         
             </li>
           </ul>
         </div>
@@ -856,18 +878,17 @@ const SuperAdminSidebar = ({ children }) => {
           </div>
         </div>
 
-       {/* dashboard-main-body */}
-       <div className='dashboard-main-body'>
-          <SuperAdminCombinedDashboard />
-          {children}
-        </div>
+        {/* dashboard-main-body */}
+        <div className='dashboard-main-body'>{children}</div>
 
         {/* Footer section */}
         <footer className='d-footer'>
+          <TenantCombinedDashboard />
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
-              <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
+              <p className='mb-0'>© 2025 Rental Management System. All Rights Reserved.</p>
             </div>
+           
           </div>
         </footer>
       </main>
@@ -875,4 +896,4 @@ const SuperAdminSidebar = ({ children }) => {
   );
 };
 
-export default SuperAdminSidebar;
+export default TenantSidebar;

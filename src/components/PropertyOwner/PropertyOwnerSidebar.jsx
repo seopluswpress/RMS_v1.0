@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-import '../dashboard.css';
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import PropertyOwnerCombinedDashboard from "./PropertyOwnerCombinedDashboard";
+import '../../dashboard.css';
 
-const PropertyOwner2Sidebar = ({ children }) => {
+const PropertyOwnerSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -87,7 +88,7 @@ const PropertyOwner2Sidebar = ({ children }) => {
   };
 
   return (
-    <section className={mobileMenu ? "overlay active" : "overlay"}>
+    <section className={mobileMenu ? "overlay active" : "overlay "}>
       {/* sidebar */}
       <aside
         className={
@@ -157,7 +158,7 @@ const PropertyOwner2Sidebar = ({ children }) => {
 
 
            
-           {/*<li>
+            {/*<li>
               <NavLink
                 to='/email'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -266,20 +267,20 @@ const PropertyOwner2Sidebar = ({ children }) => {
                 />
                 <span>Settings</span>
               </Link>
-              
+           
+            
+               
+           
              
-             
-             
-          
+                  
          
-      
             </li>
           </ul>
         </div>
       </aside>
 
       <main
-        className={sidebarActive ? "dashboard-main active sidebar-layout" : "dashboard-main sidebar-layout"}
+        className={sidebarActive ? "dashboard-main active" : "dashboard-main"}
       >
         <div className='navbar-header'>
           <div className='row align-items-center justify-content-between'>
@@ -952,12 +953,11 @@ const PropertyOwner2Sidebar = ({ children }) => {
 
         {/* Footer section */}
         <footer className='d-footer'>
-       
+          <PropertyOwnerCombinedDashboard />
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
               <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
             </div>
-            
           </div>
         </footer>
       </main>
@@ -965,4 +965,4 @@ const PropertyOwner2Sidebar = ({ children }) => {
   );
 };
 
-export default PropertyOwner2Sidebar;
+export default PropertyOwnerSidebar;

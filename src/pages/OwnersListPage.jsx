@@ -1,5 +1,5 @@
 import React from "react";
-import Sa2Sidebar from "../components/Sa2Sidebar";
+import Sa2Sidebar from "../components/Superadmin/Sa2Sidebar";
 import Owner from '../pages1/Owners'
 
 const OwnersListPage = () => (

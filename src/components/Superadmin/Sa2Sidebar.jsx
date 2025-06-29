@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import '../../dashboard.css';
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
-
-const Tenant2Sidebar = ({ children }) => {
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
+const Sa2Sidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
@@ -86,7 +86,7 @@ const Tenant2Sidebar = ({ children }) => {
   };
 
   return (
-    <section className={mobileMenu ? "overlay active" : "overlay "}>
+    <section className={mobileMenu ? "overlay active" : "overlay"}>
       {/* sidebar */}
       <aside
         className={
@@ -107,7 +107,7 @@ const Tenant2Sidebar = ({ children }) => {
         <div>
           <Link to='/' className='sidebar-logo'>
             <img
-              src='/assets/images/logo.png'
+              src='assets/images/logo.png'
               alt='site logo'
               className='light-logo'
             />
@@ -126,7 +126,7 @@ const Tenant2Sidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/tenant-dashboard'>
+              <Link to='/super-admin-dashboard'>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
@@ -135,6 +135,14 @@ const Tenant2Sidebar = ({ children }) => {
               </Link>
               
             </li>
+
+                           <li>
+                                      <Link to='/property-owner-list'>
+                                        <Icon icon='mdi:account-tie' className='menu-icon' />
+                                        <span>Property owner</span>
+                                      </Link>
+                                      
+                                    </li>
 
            
             {/*<li>
@@ -145,8 +153,8 @@ const Tenant2Sidebar = ({ children }) => {
                 <Icon icon='mage:email' className='menu-icon' />
                 <span>Email</span>
               </NavLink>
-            </li>*/}
-            {/*<li>
+            </li>
+            <li>
               <NavLink
                 to='/chat-message'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
@@ -154,7 +162,8 @@ const Tenant2Sidebar = ({ children }) => {
                 <Icon icon='bi:chat-dots' className='menu-icon' />
                 <span>Chat</span>
               </NavLink>
-            </li>*/}
+            </li>
+            */}
             <li>
               <NavLink
                 to='/calendar-main'
@@ -166,31 +175,10 @@ const Tenant2Sidebar = ({ children }) => {
             </li>
            
 
-            {/* Invoice Dropdown */}
-            <li>
-                          <Link to='/invoice-list-tenant'>
-                            <Icon icon='hugeicons:invoice-03' className='menu-icon' />
-                            <span>Invoice</span>
-                          </Link>
-                          
-                        </li>
+          
             
          
-               <li>
-                          <Link to='/MaintenancePageTenant'>
-                            <Icon icon='mdi:wrench-outline' className='menu-icon' />
-                            <span>maintainace request</span>
-                          </Link>
-                          
-                        </li>
-
-            <li>
-                          <Link to='/payment-list-tenant'>
-                            <Icon icon='mdi:cash' className='menu-icon' />
-                            <span>Payments</span>
-                          </Link>
-                          
-                        </li>
+             
 
           
                
@@ -238,24 +226,26 @@ const Tenant2Sidebar = ({ children }) => {
      
 
             {/* Settings Dropdown */}
-            <li className>
-              <Link to='/tenantcompanylayer'>
+            <li>
+              <Link to='/superadmincompanylayer'>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
               </Link>
-         
-     
-          
+
+              
+               
+               
+            
             </li>
           </ul>
         </div>
       </aside>
 
       <main
-        className={sidebarActive ? "dashboard-main active" : "dashboard-main"}
+        className={sidebarActive ? "dashboard-main active sidebar-layout" : "dashboard-main sidebar-layout"}
       >
         <div className='navbar-header'>
           <div className='row align-items-center justify-content-between'>
@@ -933,7 +923,6 @@ const Tenant2Sidebar = ({ children }) => {
             <div className='col-auto'>
               <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
             </div>
-           
           </div>
         </footer>
       </main>
@@ -941,4 +930,4 @@ const Tenant2Sidebar = ({ children }) => {
   );
 };
 
-export default Tenant2Sidebar;
+export default Sa2Sidebar;

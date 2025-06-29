@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import '../dashboard.css';
+import '../../dashboard.css';
 import { Link, NavLink, useLocation } from "react-router-dom";
-import ThemeToggleButton from "../helper/ThemeToggleButton";
+import ThemeToggleButton from "../../helper/ThemeToggleButton";
 import PropertyManagerCombinedDashboard from "./PropertyManagerCombinedDashboard";
 
 const PropertyManagerSidebar = ({ children }) => {

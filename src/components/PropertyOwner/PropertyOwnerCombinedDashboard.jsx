@@ -1,7 +1,7 @@
 import React from "react";
-import UnitCountFour from "./child/UnitCountFour";
-import UsersChart from "./child/UsersChart";
-import IncomeVsExpense from "./child/IncomeVsExpense";
+import UnitCountFour from "../child/UnitCountFour";
+import UsersChart from "../child/UsersChart";
+import IncomeVsExpense from "../child/IncomeVsExpense";
 // ...other imports
 
 const PropertyOwnerCombinedDashboard = () => (

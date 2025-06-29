@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import StripeWrapper from './StripeWrapper';
 import axios from 'axios';
 import { properties } from '../../services/api';
-import Tenant2Sidebar from '../Tenant2Sidebar';
+import Tenant2Sidebar from "../Tenant/Tenant2Sidebar";
 
 axios.defaults.baseURL='https://hemanth525.pythonanywhere.com';
 
