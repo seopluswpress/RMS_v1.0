@@ -1,6 +1,5 @@
 import React from 'react'
 import Paypal from './child/Paypal'
-import RazorPay from './child/RazorPay'
 import Stripe from './child/Stripe'
 
 const PaymentGatewayLayer = () => {
@@ -12,8 +11,6 @@ const PaymentGatewayLayer = () => {
                     {/* Paypal */}
                     <Paypal />
 
-                    {/* RazorPay */}
-                    <RazorPay />
 
                     {/* Stripe */}
                     <Stripe />

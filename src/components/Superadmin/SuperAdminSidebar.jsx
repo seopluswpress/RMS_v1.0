@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useProfile } from '../../context/ProfileContext';
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, Outlet } from "react-router-dom";
 import ThemeToggleButton from "../../helper/ThemeToggleButton";
 import SuperAdminCombinedDashboard from "./SuperAdminCombinedDashboard";
 import '../../dashboard.css';
+import LogoutButton from "../LogoutButton";
+import '../../custom.css';
 const SuperAdminSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
+  const { profileImage } = useProfile();
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
 
@@ -127,21 +131,27 @@ const SuperAdminSidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/super-admin-dashboard'>
+              <NavLink to='/dashboard' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
                 />
                 <span>Dashboard</span>
-              </Link>
+              </NavLink>
               
+            </li>
+            <li>
+              <NavLink to='/subscription' className={(navData) => (navData.isActive ? "active-page" : "")}>
+                <Icon icon='mdi:credit-card-multiple' className='menu-icon' />
+                <span>Subscription</span>
+              </NavLink>
             </li>
 
                            <li>
-                                      <Link to='/owner-list'>
+                                      <NavLink to='/owner-list' className={(navData) => (navData.isActive ? "active-page" : "")}>
                                         <Icon icon='mdi:account-tie' className='menu-icon' />
-                                        <span>Property owner</span>
-                                      </Link>
+                                        <span>Property Owner</span>
+                                      </NavLink>
                                       
                                     </li>
 
@@ -156,26 +166,18 @@ const SuperAdminSidebar = ({ children }) => {
                 <span>Chat</span>
               </NavLink>
             </li>*/}
-            <li>
-              <NavLink
-                to='/calendar-main'
-                className={(navData) => (navData.isActive ? "active-page" : "")}
-              >
-                <Icon icon='solar:calendar-outline' className='menu-icon' />
-                <span>Calendar</span>
-              </NavLink>
-            </li>
+           
 
 
             {/* Settings Dropdown */}
             <li>
-              <Link to='/superadmincompanylayer'>
+              <NavLink to='/superadmincompanylayer' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
-              </Link>
+              </NavLink>
              
          
            
@@ -184,6 +186,7 @@ const SuperAdminSidebar = ({ children }) => {
          
             </li>
           </ul>
+          <LogoutButton />
         </div>
       </aside>
 
@@ -227,7 +230,7 @@ const SuperAdminSidebar = ({ children }) => {
             <div className='col-auto'>
               <div className='d-flex flex-wrap align-items-center gap-3'>
                 {/* ThemeToggleButton */}
-                <ThemeToggleButton />
+                  {/*<ThemeToggleButton />*/}
                 <div className='dropdown d-none d-sm-inline-block'>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
@@ -787,12 +790,21 @@ const SuperAdminSidebar = ({ children }) => {
                   <div className='dropdown-menu to-top dropdown-menu-sm'>
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
-                        <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          Shaidul Islam
-                        </h6>
-                        <span className='text-secondary-light fw-medium text-sm'>
-                          Admin
-                        </span>
+                        {(() => {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch (e) {}
+  const username = user?.username || 'User';
+  const userType = user?.type ? user.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'User Type';
+  return (
+    <>
+      <h6 className='text-lg text-primary-light fw-semibold mb-2'>{username}</h6>
+      <span className='text-secondary-light fw-medium text-sm'>{userType}</span>
+    </>
+  );
+})()}
+
                       </div>
                       <button type='button' className='hover-text-danger'>
                         <Icon
@@ -805,7 +817,7 @@ const SuperAdminSidebar = ({ children }) => {
                       <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
-                          to='/view-profile'
+                          to='/view-profile-superadmin'
                         >
                           <Icon
                             icon='solar:user-linear'
@@ -859,6 +871,7 @@ const SuperAdminSidebar = ({ children }) => {
        {/* dashboard-main-body */}
        <div className='dashboard-main-body'>
           {children}
+        <Outlet />
         </div>
 
         {/* Footer section */}

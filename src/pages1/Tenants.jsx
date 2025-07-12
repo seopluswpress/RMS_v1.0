@@ -131,13 +131,16 @@ const Tenants = () => {
           
         </div>
         <div className="d-flex flex-wrap align-items-center gap-3">
-          <button
-            onClick={handleNewTenant}
-            className="btn btn-sm btn-primary-600 d-flex align-items-center gap-1 px-3 py-1"
-          >
-            <FiPlus className="h-4 w-4" />
-            <span>New Tenant</span>
-          </button>
+          <div style={{ display: 'inline-block', marginRight: '20px', width: '180px' }}>
+            <button
+              onClick={handleNewTenant}
+              className="btn btn-sm d-flex align-items-center justify-content-center px-3 py-1"
+              style={{ backgroundColor: '#30314f', color: '#fff', border: 'none', width: '100%' }}
+            >
+              <FiPlus className="h-4 w-4 me-1" />
+              <span>New Tenant</span>
+            </button>
+          </div>
           </div>
         </div>
       </div>

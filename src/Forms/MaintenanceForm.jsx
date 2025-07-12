@@ -153,7 +153,7 @@ const MaintenanceForm = ({ onClose, onMaintenanceAdded, editData, onUpdate }) =>
         setPropertiesList(response.data.data);
       } catch (err) {
         console.error('Error fetching properties:', err);
-        setError('Failed to load properties');
+        // Error is logged but not displayed to users
       } finally {
         setIsLoading(false);
       }
@@ -173,12 +173,12 @@ const MaintenanceForm = ({ onClose, onMaintenanceAdded, editData, onUpdate }) =>
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+    <div>
       <div className="bg-gray-900 text-white w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center px-4 py-2 border-b border-gray-700" style={{marginBottom:0, paddingBottom:0}}>
-          <h6 className="text-lg font-semibold mb-0">
-            {editData ? 'Edit Maintenance Request' : 'Create Maintenance Request'}
-          </h6>
+        <div className="flex justify-between items-center px-4 py-2 border-b border-gray-700">
+     
+           
+          
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-white"
@@ -188,107 +188,118 @@ const MaintenanceForm = ({ onClose, onMaintenanceAdded, editData, onUpdate }) =>
           </button>
         </div>
 
-        {error && (
-  <div className="bg-red-500 text-white px-4 py-2 mx-4 mt-2 mb-2 rounded" style={{marginTop: '0.5rem', marginBottom: '0.5rem', paddingTop: 0, paddingBottom: 0}}>
-    {error}
-  </div>
-)}
-<form onSubmit={handleSubmit} style={{marginTop: 0, paddingTop: 0}} className="mt-0 pt-0">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-0 pt-0" style={{marginTop: 0, paddingTop: 0}}>
-    <div className="col-12 mt-0 pt-0" style={{marginTop: 0, paddingTop: 0}}>
-      <label className="form-label mb-1" style={{marginBottom: '0.25rem'}} >
-    Maintenance Type <span className="text-danger">*</span>
-  </label>
-  <select
-    name="maintainence_type"
-    value={formData.maintainence_type}
-    onChange={handleInputChange}
-    className={`form-select${formErrors.maintainence_type ? ' is-invalid' : ''}`}
-    disabled={isSubmitting}
-  >
-    <option value="">Select category</option>
-    <option value="Plumbing">Plumbing</option>
-    <option value="Electrical">Electrical</option>
-    <option value="HVAC">HVAC</option>
-    <option value="Appliance">Appliance</option>
-    <option value="Structural">Structural</option>
-    <option value="Pest">Pest</option>
-    <option value="Landscaping">Landscaping</option>
-    <option value="Janitorial">Janitorial</option>
-    <option value="Safety">Safety</option>
-    <option value="Preventive">Preventive</option>
-    <option value="Renovation">Renovation</option>
-    <option value="Emergency">Emergency</option>
-  </select>
-  {formErrors.maintainence_type && (
-    <div className="invalid-feedback d-block">{formErrors.maintainence_type}</div>
-  )}
-</div>
-            <div className="col-12">
-              <label className="form-label">Description *</label>
+        {/* Error messages removed as requested */}
+<form onSubmit={handleSubmit} className="px-4 py-2" style={{margin: '0.5rem 0 1rem 0'}}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+            <div className="col-12" style={{paddingBottom: '1rem'}}>
+              <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>
+                Maintenance Type <span className="text-danger">*</span>
+              </label>
+              <select
+                name="maintainence_type"
+                value={formData.maintainence_type}
+                onChange={handleInputChange}
+                className={`form-select${formErrors.maintainence_type ? ' is-invalid' : ''} focus:ring-blue-500 focus:border-blue-500`}
+                disabled={isSubmitting}
+                style={{borderRadius: '0.375rem', padding: '0.5rem', width: '100%'}}
+              >
+                <option value="">Select category</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="HVAC">HVAC</option>
+                <option value="Appliance">Appliance</option>
+                <option value="Structural">Structural</option>
+                <option value="Pest">Pest</option>
+                <option value="Landscaping">Landscaping</option>
+                <option value="Janitorial">Janitorial</option>
+                <option value="Safety">Safety</option>
+                <option value="Preventive">Preventive</option>
+                <option value="Renovation">Renovation</option>
+                <option value="Emergency">Emergency</option>
+              </select>
+              {formErrors.maintainence_type && (
+                <div className="invalid-feedback d-block">{formErrors.maintainence_type}</div>
+              )}
+            </div>
+            <div className="col-12" style={{paddingBottom: '1rem'}}>
+              <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Description <span className="text-danger">*</span></label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                className={`form-control${formErrors.description ? ' is-invalid' : ''}`}
+                className={`form-control${formErrors.description ? ' is-invalid' : ''} focus:ring-blue-500 focus:border-blue-500`}
                 disabled={isSubmitting}
+                style={{borderRadius: '0.375rem', padding: '0.5rem', width: '100%'}}
                 rows={2}
               />
               {formErrors.description && (
                 <div className="invalid-feedback d-block">{formErrors.description}</div>
               )}
             </div>
-            <div className="col-md-6">
-              <label className="form-label">Priority *</label>
-              <select
-                name="priority"
-                value={formData.priority}
-                onChange={handleInputChange}
-                className="form-select"
-                disabled={isSubmitting}
-              >
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Status *</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="form-select"
-                disabled={isSubmitting}
-              >
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-            <div className="col-md-6">
-              <label className="form-label">Maintenance Date *</label>
+          </div>
+          {/* Priority and Status side by side using table layout */}
+          <table style={{width: '100%', marginBottom: '1.5rem', borderCollapse: 'separate', borderSpacing: '10px 0'}}>
+            <tbody>
+              <tr>
+                <td style={{width: '50%', paddingRight: '10px'}}>
+                  <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Priority <span className="text-danger">*</span></label>
+                  <select
+                    name="priority"
+                    value={formData.priority}
+                    onChange={handleInputChange}
+                    className="form-select focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isSubmitting}
+                    style={{width: '100%', borderRadius: '0.375rem', padding: '0.5rem'}}
+                  >
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td style={{width: '50%', paddingLeft: '10px'}}>
+                  <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Status <span className="text-danger">*</span></label>
+                  <select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleInputChange}
+                    className="form-select focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isSubmitting}
+                    style={{width: '100%', borderRadius: '0.375rem', padding: '0.5rem'}}
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div style={{marginBottom: '1rem'}}>
+              <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Maintenance Date <span className="text-danger">*</span></label>
               <input
                 type="date"
                 name="maintainence_date"
                 value={formData.maintainence_date}
                 onChange={handleInputChange}
-                className={`form-control${formErrors.maintainence_date ? ' is-invalid' : ''}`}
+                className={`form-control${formErrors.maintainence_date ? ' is-invalid' : ''} focus:ring-blue-500 focus:border-blue-500`}
                 disabled={isSubmitting}
+                style={{borderRadius: '0.375rem', padding: '0.5rem', width: '100%'}}
               />
               {formErrors.maintainence_date && (
                 <div className="invalid-feedback d-block">{formErrors.maintainence_date}</div>
               )}
             </div>
-            <div className="col-md-6">
-              <label className="form-label">Property *</label>
+            <div className="col-md-6 w-100" style={{marginBottom: '1rem'}}>
+              <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Property <span className="text-danger">*</span></label>
               <select
                 name="property_id"
                 value={formData.property_id}
                 onChange={handleInputChange}
-                className={`form-select${formErrors.property_id ? ' is-invalid' : ''}`}
+                className={`form-select${formErrors.property_id ? ' is-invalid' : ''} focus:ring-blue-500 focus:border-blue-500`}
                 disabled={isSubmitting}
+                style={{borderRadius: '0.375rem', padding: '0.5rem', width: '100%'}}
               >
                 <option value="">Select a property</option>
                 {propertiesList.map((property) => (
@@ -301,35 +312,37 @@ const MaintenanceForm = ({ onClose, onMaintenanceAdded, editData, onUpdate }) =>
                 <div className="invalid-feedback d-block">{formErrors.property_id}</div>
               )}
             </div>
-            <div className="col-md-6">
-              <label className="form-label">Maintenance Cost ($)</label>
+            <div className="col-md-6 w-100" style={{marginBottom: '1rem'}}>
+              <label className="form-label mb-1 font-medium text-gray-700" style={{textAlign: 'left', display: 'block'}}>Maintenance Cost ($)</label>
               <input
                 type="number"
                 name="maintainence_cost"
                 value={formData.maintainence_cost}
                 onChange={handleInputChange}
-                className="form-control"
+                className="form-control focus:ring-blue-500 focus:border-blue-500"
+                disabled={isSubmitting}
+                style={{borderRadius: '0.375rem', padding: '0.5rem', width: '100%'}}
                 placeholder="0.00"
                 min="0"
                 step="0.01"
-                disabled={isSubmitting}
               />
             </div>
           </div>
-          <div className="d-flex justify-content-end gap-2 pt-4">
+          <div className="mt-4 d-flex justify-content-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-outline-secondary"
+              className="btn btn-light px-4 py-2"
+              style={{borderRadius: '0.375rem', fontWeight: '500'}}
               disabled={isSubmitting}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn btn-primary-600 d-inline-flex align-items-center"
+              className="btn btn-primary px-4 py-2"
               disabled={isSubmitting}
-            >
+              style={{borderRadius: '0.375rem', fontWeight: '500', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)'}}>
               {isSubmitting ? (
                 <>
                   <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

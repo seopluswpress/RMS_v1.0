@@ -1,13 +1,159 @@
 import React, { useEffect, useState } from "react";
+import { useProfile } from '../../context/ProfileContext';
 import { Icon } from "@iconify/react/dist/iconify.js";
 import '../../dashboard.css';
 import { Link, NavLink, useLocation } from "react-router-dom";
 import ThemeToggleButton from "../../helper/ThemeToggleButton";
+import LogoutButton from "../LogoutButton";
+import '../../custom.css';
+const userPopupStyles = `
+  .user-popup-container {
+    position: relative;
+  }
+  
+  .sidebar-bottom-user {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background-color: inherit;
+  }
+  
+  .dark-mode .sidebar-bottom-user {
+    border-top: 1px solid #2a2a3c;
+  }
+  
+  /* Make the user popup behave like other sidebar items when collapsed */
+  .sidebar.active .sidebar-bottom-user .user-popup-container a span {
+    display: none;
+  }
+  
+  .sidebar.active .sidebar-bottom-user {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  
+  .sidebar.active .sidebar-bottom-user .user-popup-container {
+    width: auto;
+  }
+  
+  .user-popup-card {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -10px);
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+  }
+  
+  .dark-mode .user-popup-card {
+    background-color: #1e1e2d;
+    color: #fff;
+  }
+  
+  .user-popup-card.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+  
+  .user-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .dark-mode .user-popup-header {
+    border-bottom: 1px solid #2a2a3c;
+  }
+  
+  .user-popup-header h6 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dark-mode .close-btn {
+    color: #aaa;
+  }
+  
+  .user-popup-menu {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+  }
+  
+  .user-popup-menu li {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-popup-menu li a,
+  .user-popup-menu li button {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .dark-mode .user-popup-menu li a,
+  .dark-mode .user-popup-menu li button {
+    color: #d0d0d0;
+  }
+  
+  .user-popup-menu li a:hover,
+  .user-popup-menu li button:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .dark-mode .user-popup-menu li a:hover,
+  .dark-mode .user-popup-menu li button:hover {
+    background-color: #2a2a3c;
+  }
+  
+  .user-popup-menu li a .icon,
+  .user-popup-menu li button .icon {
+    margin-right: 10px;
+  }
+`;
 
 
 const PropertyManager2Sidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
+  let [userPopupOpen, setUserPopupOpen] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
+  const { profileImage } = useProfile();
   const location = useLocation(); // Hook to get the current route
 
   useEffect(() => {
@@ -87,6 +233,18 @@ const PropertyManager2Sidebar = ({ children }) => {
     setMobileMenu(!mobileMenu);
   };
 
+  useEffect(() => {
+    // Add the CSS styles to the document
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = userPopupStyles;
+    document.head.appendChild(styleElement);
+
+    // Clean up function to remove the style element when component unmounts
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
   return (
     <section className={mobileMenu ? "overlay active" : "overlay"}>
       {/* sidebar */}
@@ -128,19 +286,19 @@ const PropertyManager2Sidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/propertymanager-dashboard'>
+              <NavLink to='/dashboard' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
                 />
                 <span>Dashboard</span>
-              </Link>
+              </NavLink>
               
             </li>
             <li>
-              <NavLink to='/property-list-property-manager'>
+              <NavLink to='/property-list-property-manager' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon icon='material-symbols:home-work-outline' className='menu-icon' />
-                <span>property</span>
+                <span>Property</span>
               </NavLink>
             </li>
            
@@ -169,7 +327,7 @@ const PropertyManager2Sidebar = ({ children }) => {
             */}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/propertymanager-calendar-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />
@@ -181,10 +339,10 @@ const PropertyManager2Sidebar = ({ children }) => {
             
          
                <li>
-                          <Link to='/MaintainancePagePropertyManager'>
+                          <NavLink to='/MaintainancePagePropertyManager' className={(navData) => (navData.isActive ? "active-page" : "")}>
                             <Icon icon='mdi:wrench-outline' className='menu-icon' />
-                            <span>maintainace request</span>
-                          </Link>
+                            <span>Maintainace Request</span>
+                          </NavLink>
                           
                         </li>
                        
@@ -236,13 +394,13 @@ const PropertyManager2Sidebar = ({ children }) => {
 
             {/* Settings Dropdown */}
             <li>
-              <Link to='/propertymanagercompanylayer'>
+              <NavLink to='/propertymanagercompanylayer' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
-              </Link>
+              </NavLink>
               
               
                  
@@ -251,7 +409,51 @@ const PropertyManager2Sidebar = ({ children }) => {
                  
             
             </li>
+            
+                     
+
           </ul>
+          
+          <div className="sidebar-bottom-user">
+            <div className='user-popup-container'>
+              <a href='#' style={{paddingLeft: '15px'}} className="d-flex align-items-center" onClick={(e) => {
+                e.preventDefault();
+                setUserPopupOpen(!userPopupOpen);
+              }}>
+                {(() => {
+                  let user = null;
+                  try {
+                    user = JSON.parse(localStorage.getItem('user'));
+                  } catch (e) {}
+                  const username = user?.username || 'User';
+                  return (
+                    <>
+                      <Icon icon='solar:user-linear' className='menu-icon' />
+                      <span>{username}</span>
+                    </>
+                  );
+                })()}
+              </a>
+              <div className={`user-popup-card ${userPopupOpen ? 'show' : ''}`}>
+                <div className='user-popup-header'>
+                  <button onClick={() => setUserPopupOpen(false)} className='close-btn'>
+                    <Icon icon='radix-icons:cross-1' />
+                  </button>
+                </div>
+                <ul className='user-popup-menu'>
+                  <li>
+                    <Link to='/view-profile-property-manager' onClick={() => setUserPopupOpen(false)}>
+                      <Icon icon='solar:user-linear' className='icon text-xl' />
+                      <span>My Profile</span>
+                    </Link>
+                  </li>
+                  <li onClick={() => setUserPopupOpen(false)}>
+                    <LogoutButton />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </aside>
 
@@ -295,401 +497,11 @@ const PropertyManager2Sidebar = ({ children }) => {
             <div className='col-auto'>
               <div className='d-flex flex-wrap align-items-center gap-3'>
                 {/* ThemeToggleButton */}
-                <ThemeToggleButton />
-                <div className='dropdown d-none d-sm-inline-block'>
-                  <button
-                    className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
-                    type='button'
-                    data-bs-toggle='dropdown'
-                  >
-                    <img
-                      src='assets/images/lang-flag.png'
-                      alt='Wowdash'
-                      className='w-24 h-24 object-fit-cover rounded-circle'
-                    />
-                  </button>
-                  <div className='dropdown-menu to-top dropdown-menu-sm'>
-                    <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
-                      <div>
-                        <h6 className='text-lg text-primary-light fw-semibold mb-0'>
-                          Choose Your Language
-                        </h6>
-                      </div>
-                    </div>
-                    <div className='max-h-400-px overflow-y-auto scroll-sm pe-8'>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='english'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag1.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              English
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='english'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='japan'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag2.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              Japan
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='japan'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='france'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag3.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              France
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='france'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='germany'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag4.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              Germany
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='germany'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='korea'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag5.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              South Korea
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='korea'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='bangladesh'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag6.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              Bangladesh
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='bangladesh'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between mb-16'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='india'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag7.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              India
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='india'
-                        />
-                      </div>
-                      <div className='form-check style-check d-flex align-items-center justify-content-between'>
-                        <label
-                          className='form-check-label line-height-1 fw-medium text-secondary-light'
-                          htmlFor='canada'
-                        >
-                          <span className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                            <img
-                              src='assets/images/flags/flag8.png'
-                              alt=''
-                              className='w-36-px h-36-px bg-success-subtle text-success-main rounded-circle flex-shrink-0'
-                            />
-                            <span className='text-md fw-semibold mb-0'>
-                              Canada
-                            </span>
-                          </span>
-                        </label>
-                        <input
-                          className='form-check-input'
-                          type='radio'
-                          name='crypto'
-                          id='canada'
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/*<ThemeToggleButton />*/}
+                
                 {/* Language dropdown end */}
-                <div className='dropdown'>
-                  <button
-                    className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
-                    type='button'
-                    data-bs-toggle='dropdown'
-                  >
-                    <Icon
-                      icon='mage:email'
-                      className='text-primary-light text-xl'
-                    />
-                  </button>
-                  <div className='dropdown-menu to-top dropdown-menu-lg p-0'>
-                    <div className='m-16 py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
-                      <div>
-                        <h6 className='text-lg text-primary-light fw-semibold mb-0'>
-                          Message
-                        </h6>
-                      </div>
-                      <span className='text-primary-600 fw-semibold text-lg w-40-px h-40-px rounded-circle bg-base d-flex justify-content-center align-items-center'>
-                        05
-                      </span>
-                    </div>
-                    <div className='max-h-400-px overflow-y-auto scroll-sm pe-4'>
-                      <Link
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
-                            <img
-                              src='assets/images/notification/profile-3.png'
-                              alt=''
-                            />
-                            <span className='w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0' />
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold mb-4'>
-                              Kathryn Murphy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-100-px'>
-                              hey! there i’m...
-                            </p>
-                          </div>
-                        </div>
-                        <div className='d-flex flex-column align-items-end'>
-                          <span className='text-sm text-secondary-light flex-shrink-0'>
-                            12:30 PM
-                          </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
-                            8
-                          </span>
-                        </div>
-                      </Link>
-                      <Link
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
-                            <img
-                              src='assets/images/notification/profile-4.png'
-                              alt=''
-                            />
-                            <span className='w-8-px h-8-px  bg-neutral-300 rounded-circle position-absolute end-0 bottom-0' />
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold mb-4'>
-                              Kathryn Murphy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-100-px'>
-                              hey! there i’m...
-                            </p>
-                          </div>
-                        </div>
-                        <div className='d-flex flex-column align-items-end'>
-                          <span className='text-sm text-secondary-light flex-shrink-0'>
-                            12:30 PM
-                          </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
-                            2
-                          </span>
-                        </div>
-                      </Link>
-                      <Link
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
-                            <img
-                              src='assets/images/notification/profile-5.png'
-                              alt=''
-                            />
-                            <span className='w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0' />
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold mb-4'>
-                              Kathryn Murphy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-100-px'>
-                              hey! there i’m...
-                            </p>
-                          </div>
-                        </div>
-                        <div className='d-flex flex-column align-items-end'>
-                          <span className='text-sm text-secondary-light flex-shrink-0'>
-                            12:30 PM
-                          </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-neutral-400 rounded-circle'>
-                            0
-                          </span>
-                        </div>
-                      </Link>
-                      <Link
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between bg-neutral-50'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
-                            <img
-                              src='assets/images/notification/profile-6.png'
-                              alt=''
-                            />
-                            <span className='w-8-px h-8-px bg-neutral-300 rounded-circle position-absolute end-0 bottom-0' />
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold mb-4'>
-                              Kathryn Murphy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-100-px'>
-                              hey! there i’m...
-                            </p>
-                          </div>
-                        </div>
-                        <div className='d-flex flex-column align-items-end'>
-                          <span className='text-sm text-secondary-light flex-shrink-0'>
-                            12:30 PM
-                          </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-neutral-400 rounded-circle'>
-                            0
-                          </span>
-                        </div>
-                      </Link>
-                      <Link
-                        to='#'
-                        className='px-24 py-12 d-flex align-items-start gap-3 mb-2 justify-content-between'
-                      >
-                        <div className='text-black hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'>
-                          <span className='w-40-px h-40-px rounded-circle flex-shrink-0 position-relative'>
-                            <img
-                              src='assets/images/notification/profile-7.png'
-                              alt=''
-                            />
-                            <span className='w-8-px h-8-px bg-success-main rounded-circle position-absolute end-0 bottom-0' />
-                          </span>
-                          <div>
-                            <h6 className='text-md fw-semibold mb-4'>
-                              Kathryn Murphy
-                            </h6>
-                            <p className='mb-0 text-sm text-secondary-light text-w-100-px'>
-                              hey! there i’m...
-                            </p>
-                          </div>
-                        </div>
-                        <div className='d-flex flex-column align-items-end'>
-                          <span className='text-sm text-secondary-light flex-shrink-0'>
-                            12:30 PM
-                          </span>
-                          <span className='mt-4 text-xs text-base w-16-px h-16-px d-flex justify-content-center align-items-center bg-warning-main rounded-circle'>
-                            8
-                          </span>
-                        </div>
-                      </Link>
-                    </div>
-                    <div className='text-center py-12 px-16'>
-                      <Link
-                        to='#'
-                        className='text-primary-600 fw-semibold text-md'
-                      >
-                        See All Message
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                {/* Message dropdown end */}
+                
+                {/* Message dropdown end }
                 <div className='dropdown'>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
@@ -855,12 +667,21 @@ const PropertyManager2Sidebar = ({ children }) => {
                   <div className='dropdown-menu to-top dropdown-menu-sm'>
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
-                        <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          Shaidul Islam
-                        </h6>
-                        <span className='text-secondary-light fw-medium text-sm'>
-                          Admin
-                        </span>
+                        {(() => {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch (e) {}
+  const username = user?.username || 'User';
+  const userType = user?.type ? user.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'User Type';
+  return (
+    <>
+      <h6 className='text-lg text-primary-light fw-semibold mb-2'>{username}</h6>
+      <span className='text-secondary-light fw-medium text-sm'>{userType}</span>
+    </>
+  );
+})()}
+
                       </div>
                       <button type='button' className='hover-text-danger'>
                         <Icon
@@ -873,7 +694,7 @@ const PropertyManager2Sidebar = ({ children }) => {
                       <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
-                          to='/view-profile'
+                          to='/view-profile-propertymanager'
                         >
                           <Icon
                             icon='solar:user-linear'
@@ -883,7 +704,7 @@ const PropertyManager2Sidebar = ({ children }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link
+                        {/*<Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                           to='/email'
                         >
@@ -904,16 +725,10 @@ const PropertyManager2Sidebar = ({ children }) => {
                             className='icon text-xl'
                           />
                           Setting
-                        </Link>
+                        </Link>*/}
                       </li>
                       <li>
-                        <Link
-                          className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'
-                          to='#'
-                        >
-                          <Icon icon='lucide:power' className='icon text-xl' />{" "}
-                          Log Out
-                        </Link>
+                        <LogoutButton />
                       </li>
                     </ul>
                   </div>
@@ -926,6 +741,7 @@ const PropertyManager2Sidebar = ({ children }) => {
 
         {/* dashboard-main-body */}
         <div className='dashboard-main-body'>{children}</div>
+        
 
         {/* Footer section */}
         <footer className='d-footer'>

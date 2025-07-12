@@ -1,887 +1,209 @@
-import React, { useEffect, useRef } from 'react'
-import Calendar from './child/Calendar'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-
-
-const DatePicker = ({ id, placeholder }) => {
-    const datePickerRef = useRef(null);
-
-    useEffect(() => {
-        flatpickr(datePickerRef.current, {
-            enableTime: true,
-            dateFormat: 'd/m/Y H:i',
-        });
-    }, []);
-
-    return (
-        <input
-            ref={datePickerRef}
-            id={id}
-            type="text"
-            className="form-control radius-8 bg-base"
-            placeholder={placeholder}
-        />
-    );
-};
-
+import { Icon } from '@iconify/react/dist/iconify.js';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const CalendarMainLayer = () => {
-    return (
-        <>
-            <div className="row gy-4">
-                <div className="col-xxl-3 col-lg-4">
-                    <div className="card h-100 p-0">
-                        <div className="card-body p-24">
-                            <button
-                                type="button"
-                                className="btn btn-primary text-sm btn-sm px-12 py-12 w-100 radius-8 d-flex align-items-center gap-2 mb-32"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                            >
-                                <Icon
-                                    icon="fa6-regular:square-plus"
-                                    className="icon text-lg line-height-1"
-                                />
-                                Add Currency
-                            </button>
-                            <div className="mt-32">
-                                <div className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0">
-                                    <div className="">
-                                        <div className="d-flex align-items-center gap-10">
-                                            <span className="w-12-px h-12-px bg-warning-600 rounded-circle fw-medium" />
-                                            <span className="text-secondary-light">
-                                                Today, 10:30 PM - 02:30 AM
-                                            </span>
-                                        </div>
-                                        <span className="text-primary-light fw-semibold text-md mt-4">
-                                            Design Conference
-                                        </span>
-                                    </div>
-                                    <div className="dropdown">
-                                        <button
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <Icon
-                                                icon="entypo:dots-three-vertical"
-                                                className="icon text-secondary-light"
-                                            />
-                                        </button>
-                                        <ul className="dropdown-menu p-12 border bg-base shadow">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalView"
-                                                >
-                                                    <Icon
-                                                        icon="hugeicons:view"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    View
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalEdit"
-                                                >
-                                                    <Icon
-                                                        icon="lucide:edit"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Edit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="delete-item dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalDelete"
-                                                >
-                                                    <Icon
-                                                        icon="fluent:delete-24-regular"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0">
-                                    <div className="">
-                                        <div className="d-flex align-items-center gap-10">
-                                            <span className="w-12-px h-12-px bg-success-600 rounded-circle fw-medium" />
-                                            <span className="text-secondary-light">
-                                                Today, 10:30 PM - 02:30 AM
-                                            </span>
-                                        </div>
-                                        <span className="text-primary-light fw-semibold text-md mt-4">
-                                            Weekend Festival
-                                        </span>
-                                    </div>
-                                    <div className="dropdown">
-                                        <button
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <Icon
-                                                icon="entypo:dots-three-vertical"
-                                                className="icon text-secondary-light"
-                                            />
-                                        </button>
-                                        <ul className="dropdown-menu p-12 border bg-base shadow">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalView"
-                                                >
-                                                    <Icon
-                                                        icon="hugeicons:view"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    View
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalEdit"
-                                                >
-                                                    <Icon
-                                                        icon="lucide:edit"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Edit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="delete-item dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalDelete"
-                                                >
-                                                    <Icon
-                                                        icon="fluent:delete-24-regular"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0">
-                                    <div className="">
-                                        <div className="d-flex align-items-center gap-10">
-                                            <span className="w-12-px h-12-px bg-info-600 rounded-circle fw-medium" />
-                                            <span className="text-secondary-light">
-                                                Today, 10:30 PM - 02:30 AM
-                                            </span>
-                                        </div>
-                                        <span className="text-primary-light fw-semibold text-md mt-4">
-                                            Design Conference
-                                        </span>
-                                    </div>
-                                    <div className="dropdown">
-                                        <button
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <Icon
-                                                icon="entypo:dots-three-vertical"
-                                                className="icon text-secondary-light"
-                                            />
-                                        </button>
-                                        <ul className="dropdown-menu p-12 border bg-base shadow">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalView"
-                                                >
-                                                    <Icon
-                                                        icon="hugeicons:view"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    View
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalEdit"
-                                                >
-                                                    <Icon
-                                                        icon="lucide:edit"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Edit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="delete-item dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalDelete"
-                                                >
-                                                    <Icon
-                                                        icon="fluent:delete-24-regular"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0">
-                                    <div className="">
-                                        <div className="d-flex align-items-center gap-10">
-                                            <span className="w-12-px h-12-px bg-warning-600 rounded-circle fw-medium" />
-                                            <span className="text-secondary-light">
-                                                Today, 10:30 PM - 02:30 AM
-                                            </span>
-                                        </div>
-                                        <span className="text-primary-light fw-semibold text-md mt-4">
-                                            Ultra Europe 2019
-                                        </span>
-                                    </div>
-                                    <div className="dropdown">
-                                        <button
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <Icon
-                                                icon="entypo:dots-three-vertical"
-                                                className="icon text-secondary-light"
-                                            />
-                                        </button>
-                                        <ul className="dropdown-menu p-12 border bg-base shadow">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalView"
-                                                >
-                                                    <Icon
-                                                        icon="hugeicons:view"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    View
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalEdit"
-                                                >
-                                                    <Icon
-                                                        icon="lucide:edit"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Edit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="delete-item dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalDelete"
-                                                >
-                                                    <Icon
-                                                        icon="fluent:delete-24-regular"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0">
-                                    <div className="">
-                                        <div className="d-flex align-items-center gap-10">
-                                            <span className="w-12-px h-12-px bg-warning-600 rounded-circle fw-medium" />
-                                            <span className="text-secondary-light">
-                                                Today, 10:30 PM - 02:30 AM
-                                            </span>
-                                        </div>
-                                        <span className="text-primary-light fw-semibold text-md mt-4">
-                                            Design Conference
-                                        </span>
-                                    </div>
-                                    <div className="dropdown">
-                                        <button
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <Icon
-                                                icon="entypo:dots-three-vertical"
-                                                className="icon text-secondary-light"
-                                            />
-                                        </button>
-                                        <ul className="dropdown-menu p-12 border bg-base shadow">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalView"
-                                                >
-                                                    <Icon
-                                                        icon="hugeicons:view"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    View
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-neutral-200 text-hover-neutral-900 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalEdit"
-                                                >
-                                                    <Icon
-                                                        icon="lucide:edit"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Edit
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    className="delete-item dropdown-item px-16 py-8 rounded text-secondary-light bg-hover-danger-100 text-hover-danger-600 d-flex align-items-center gap-10"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModalDelete"
-                                                >
-                                                    <Icon
-                                                        icon="fluent:delete-24-regular"
-                                                        className="icon text-lg line-height-1"
-                                                    />
-                                                    Delete
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-xxl-9 col-lg-8">
-                    <div className="card h-100 p-0">
-                        <div className="card-body p-24">
-                            <div id="wrap">
-                                <div id="calendar" />
-                                <div style={{ clear: "both" }} />
-                                <Calendar />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Modal Add Event */}
-            <div
-                className="modal fade"
-                id="exampleModal"
-                tabIndex={-1}
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-            >
-                <div className="modal-dialog modal-lg modal-dialog modal-dialog-centered">
-                    <div className="modal-content radius-16 bg-base">
-                        <div className="modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">
-                                Add New Event
-                            </h1>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            />
-                        </div>
-                        <div className="modal-body p-24">
-                            <form action="#">
-                                <div className="row">
-                                    <div className="col-12 mb-20">
-                                        <label className="form-label fw-semibold text-primary-light text-sm mb-8">
-                                            Event Title :{" "}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control radius-8"
-                                            placeholder="Enter Event Title "
-                                        />
-                                    </div>
-                                    <div className="col-md-6 mb-20">
-                                        <label
-                                            htmlFor="startDate"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            Start Date
-                                        </label>
-                                        <div className="position-relative">
+  const [events, setEvents] = useState([]);
+  const [formData, setFormData] = useState({
+    title: '',
+    start_time: '',
+    end_time: '',
+    description: '',
+    label: ''
+  });
 
-                                            <DatePicker className="form-control radius-8 bg-base" id="startDate" placeholder="03/12/2024, 10:30 AM" />
-                                            <span className="position-absolute end-0 top-50 translate-middle-y me-12 line-height-1">
-                                                <Icon icon="solar:calendar-linear" className="icon text-lg"></Icon>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 mb-20">
-                                        <label
-                                            htmlFor="endDate"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            End Date
-                                        </label>
-                                        <div className="position-relative">
+  const [showDetails, setShowDetails] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const token = localStorage.getItem("access");
 
-                                            <DatePicker className="form-control radius-8 bg-base" id="endDate" placeholder="03/12/2024, 2:30 PM" />
-                                            <span className="position-absolute end-0 top-50 translate-middle-y me-12 line-height-1">
-                                                <Icon icon="solar:calendar-linear" className="icon text-lg"></Icon>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mb-20">
-                                        <label
-                                            htmlFor="endDate"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            Label{" "}
-                                        </label>
-                                        <div className="d-flex align-items-center flex-wrap gap-28">
-                                            <div className="form-check checked-success d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="Personal"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="Personal"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-success-600 rounded-circle" />
-                                                    Personal
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-primary d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="Business"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="Business"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-primary-600 rounded-circle" />
-                                                    Business
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-warning d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="Family"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="Family"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-warning-600 rounded-circle" />
-                                                    Family
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-secondary d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="Important"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="Important"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-lilac-600 rounded-circle" />
-                                                    Important
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-danger d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="Holiday"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="Holiday"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-danger-600 rounded-circle" />
-                                                    Holiday
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mb-20">
-                                        <label
-                                            htmlFor="desc"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            Description
-                                        </label>
-                                        <textarea
-                                            className="form-control"
-                                            id="desc"
-                                            rows={4}
-                                            cols={50}
-                                            placeholder="Write some text"
-                                            defaultValue={""}
-                                        />
-                                    </div>
-                                    <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
-                                        <button
-                                            type="reset"
-                                            className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary border border-primary-600 text-md px-24 py-12 radius-8"
-                                        >
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Modal View Event */}
-            <div
-                className="modal fade"
-                id="exampleModalView"
-                tabIndex={-1}
-                aria-labelledby="exampleModalViewLabel"
-                aria-hidden="true"
-            >
-                <div className="modal-dialog modal-lg modal-dialog modal-dialog-centered">
-                    <div className="modal-content radius-16 bg-base">
-                        <div className="modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0">
-                            <h1 className="modal-title fs-5" id="exampleModalViewLabel">
-                                View Details
-                            </h1>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            />
-                        </div>
-                        <div className="modal-body p-24">
-                            <div className="mb-12">
-                                <span className="text-secondary-light txt-sm fw-medium">Title</span>
-                                <h6 className="text-primary-light fw-semibold text-md mb-0 mt-4">
-                                    Design Conference
-                                </h6>
-                            </div>
-                            <div className="mb-12">
-                                <span className="text-secondary-light txt-sm fw-medium">
-                                    Start Date
-                                </span>
-                                <h6 className="text-primary-light fw-semibold text-md mb-0 mt-4">
-                                    25 Jan 2024, 10:30AM
-                                </h6>
-                            </div>
-                            <div className="mb-12">
-                                <span className="text-secondary-light txt-sm fw-medium">
-                                    End Date
-                                </span>
-                                <h6 className="text-primary-light fw-semibold text-md mb-0 mt-4">
-                                    25 Jan 2024, 2:30AM
-                                </h6>
-                            </div>
-                            <div className="mb-12">
-                                <span className="text-secondary-light txt-sm fw-medium">
-                                    Description
-                                </span>
-                                <h6 className="text-primary-light fw-semibold text-md mb-0 mt-4">
-                                    N/A
-                                </h6>
-                            </div>
-                            <div className="mb-12">
-                                <span className="text-secondary-light txt-sm fw-medium">Label</span>
-                                <h6 className="text-primary-light fw-semibold text-md mb-0 mt-4 d-flex align-items-center gap-2">
-                                    <span className="w-8-px h-8-px bg-success-600 rounded-circle" />
-                                    Business
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Modal Edit Event */}
-            <div
-                className="modal fade"
-                id="exampleModalEdit"
-                tabIndex={-1}
-                aria-labelledby="exampleModalEditLabel"
-                aria-hidden="true"
-            >
-                <div className="modal-dialog modal-lg modal-dialog modal-dialog-centered">
-                    <div className="modal-content radius-16 bg-base">
-                        <div className="modal-header py-16 px-24 border border-top-0 border-start-0 border-end-0">
-                            <h1 className="modal-title fs-5" id="exampleModalEditLabel">
-                                Edit Event
-                            </h1>
-                            <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            />
-                        </div>
-                        <div className="modal-body p-24">
-                            <form action="#">
-                                <div className="row">
-                                    <div className="col-12 mb-20">
-                                        <label className="form-label fw-semibold text-primary-light text-sm mb-8">
-                                            Event Title :{" "}
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control radius-8"
-                                            placeholder="Enter Event Title "
-                                        />
-                                    </div>
-                                    <div className="col-md-6 mb-20">
-                                        <label
-                                            htmlFor="editstartDate"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            Start Date
-                                        </label>
-                                        <div className=" position-relative">
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
-                                            <DatePicker className="form-control radius-8 bg-base" id="startDate" placeholder="03/12/2024, 10:30 AM" />
-                                            <span className="position-absolute end-0 top-50 translate-middle-y me-12 line-height-1">
-                                                <Icon
-                                                    icon="solar:calendar-linear"
-                                                    className="icon text-lg"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 mb-20">
-                                        <label
-                                            htmlFor="editendDate"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            End Date
-                                        </label>
-                                        <div className=" position-relative">
-                                            <DatePicker className="form-control radius-8 bg-base" id="endDate" placeholder="03/12/2024, 2:30 PM" />
-                                            <span className="position-absolute end-0 top-50 translate-middle-y me-12 line-height-1">
-                                                <Icon
-                                                    icon="solar:calendar-linear"
-                                                    className="icon text-lg"
-                                                />
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mb-20">
-                                        <label className="form-label fw-semibold text-primary-light text-sm mb-8">
-                                            Label{" "}
-                                        </label>
-                                        <div className="d-flex align-items-center flex-wrap gap-28">
-                                            <div className="form-check checked-success d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="editPersonal"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="editPersonal"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-success-600 rounded-circle" />
-                                                    Personal
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-primary d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="editBusiness"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="editBusiness"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-primary-600 rounded-circle" />
-                                                    Business
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-warning d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="editFamily"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="editFamily"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-warning-600 rounded-circle" />
-                                                    Family
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-secondary d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="editImportant"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="editImportant"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-lilac-600 rounded-circle" />
-                                                    Important
-                                                </label>
-                                            </div>
-                                            <div className="form-check checked-danger d-flex align-items-center gap-2">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="radio"
-                                                    name="label"
-                                                    id="editHoliday"
-                                                />
-                                                <label
-                                                    className="form-check-label line-height-1 fw-medium text-secondary-light text-sm d-flex align-items-center gap-1"
-                                                    htmlFor="editHoliday"
-                                                >
-                                                    <span className="w-8-px h-8-px bg-danger-600 rounded-circle" />
-                                                    Holiday
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-12 mb-20">
-                                        <label
-                                            htmlFor="desc"
-                                            className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                        >
-                                            Description
-                                        </label>
-                                        <textarea
-                                            className="form-control"
-                                            id="editdesc"
-                                            rows={4}
-                                            cols={50}
-                                            placeholder="Write some text"
-                                            defaultValue={""}
-                                        />
-                                    </div>
-                                    <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
-                                        <button
-                                            type="reset"
-                                            className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary border border-primary-600 text-md px-24 py-12 radius-8"
-                                        >
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Modal Delete Event */}
-            <div
-                className="modal fade"
-                id="exampleModalDelete"
-                tabIndex={-1}
-                aria-hidden="true"
-            >
-                <div className="modal-dialog modal-sm modal-dialog modal-dialog-centered">
-                    <div className="modal-content radius-16 bg-base">
-                        <div className="modal-body p-24 text-center">
-                            <span className="mb-16 fs-1 line-height-1 text-danger">
-                                <Icon
-                                    icon="fluent:delete-24-regular"
-                                    className="menu-icon"
-                                />
-                            </span>
-                            <h6 className="text-lg fw-semibold text-primary-light mb-0">
-                                Are your sure you want to delete this event
-                            </h6>
-                            <div className="d-flex align-items-center justify-content-center gap-3 mt-24">
-                                <button
-                                    type="reset"
-                                    className="w-50 border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    className="w-50 btn btn-primary border border-primary-600 text-md px-24 py-12 radius-8"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get("https://hemanth525.pythonanywhere.com/user/event/", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setEvents(res.data.data || []);
+    } catch (error) {
+      console.error("Failed to fetch events", error);
+    }
+  };
 
-export default CalendarMainLayer
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        ...formData,
+        start_time: new Date(formData.start_time).toISOString(),
+        end_time: new Date(formData.end_time).toISOString(),
+      };
+
+      await axios.post("https://hemanth525.pythonanywhere.com/user/event/", payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      alert("Event added successfully!");
+      setFormData({
+        title: '',
+        start_time: '',
+        end_time: '',
+        description: '',
+        label: ''
+      });
+      fetchEvents();
+    } catch (err) {
+      console.error("Failed to add event", err);
+      if (err.response?.data) {
+        alert("Error: " + JSON.stringify(err.response.data));
+      }
+    }
+  };
+
+  const formatDateRange = (start, end) => {
+    try {
+      const format = (dateStr) => {
+        const date = new Date(dateStr);
+        return isNaN(date.getTime()) ? 'Invalid Date' : date.toLocaleString();
+      };
+      return `${format(start)} - ${format(end)}`;
+    } catch {
+      return 'Invalid Date - Invalid Date';
+    }
+  };
+
+  const getLabelColor = (label) => {
+    switch (label?.toLowerCase()) {
+      case 'personal': return 'bg-success-600';
+      case 'business': return 'bg-primary-600';
+      case 'family': return 'bg-warning-600';
+      case 'important': return 'bg-lilac-600';
+      case 'holiday': return 'bg-danger-600';
+      default: return 'bg-info-600';
+    }
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setShowDetails(true);
+  };
+
+  return (
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="card shadow-sm rounded">
+            <div className="card-body">
+              <h6 className="card-title mb-3">Event Calendar</h6>
+              {events.map(event => (
+            <div
+              key={event.id}
+              className="event-item d-flex align-items-center justify-content-between gap-4 pb-16 mb-16 border border-start-0 border-end-0 border-top-0"
+              onClick={() => handleEventClick(event)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div>
+                <div className="d-flex align-items-center gap-10">
+                  <span className={`w-12-px h-12-px rounded-circle fw-medium ${getLabelColor(event.label)}`} />
+                  <span className="text-secondary-light">
+                    {formatDateRange(event.start_time, event.end_time)}
+                  </span>
+                </div>
+                <span className="text-primary-light fw-semibold text-md mt-4">
+                  {event.title}
+                </span>
+              </div>
+            </div>
+          ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <div className="card shadow-sm rounded">
+            <div className="card-body">
+              <h6 className="card-title mb-3">Add New Event</h6>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                className="form-control"
+                required
+              />
+            </div>
+                <div className="form-group">
+                  <label>Start Time</label>
+                  <input
+  type="datetime-local"
+  value={formData.start_time}
+  onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
+  className="form-control"
+  required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>End Time</label>
+                  <input
+  type="datetime-local"
+  value={formData.end_time}
+  onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
+  className="form-control"
+  required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Description</label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className="form-control"
+              />
+                </div>
+                <div className="form-group">
+                  <label>Label</label>
+              <select
+                value={formData.label}
+                onChange={(e) => setFormData({ ...formData, label: e.target.value })}
+                className="form-control"
+              >
+                <option value="">Select Label</option>
+                <option value="personal">Personal</option>
+                <option value="business">Business</option>
+                <option value="family">Family</option>
+                <option value="important">Important</option>
+                <option value="holiday">Holiday</option>
+              </select>
+                </div>
+                <button type="submit" className="btn btn-primary mt-3">Add Event</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Event Details Modal */}
+      <Modal show={showDetails} onHide={() => setShowDetails(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedEvent?.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p><strong>Date:</strong> {formatDateRange(selectedEvent?.start_time, selectedEvent?.end_time)}</p>
+          <p><strong>Description:</strong> {selectedEvent?.description || 'N/A'}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDetails(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
+export default CalendarMainLayer;

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { properties } from '../services/api';
+import axiosInstance from '../utils/axiosInstance';
 
 const STATUS_OPTIONS = [
   { value: 'paid', label: 'Paid' },
@@ -23,9 +24,12 @@ export default function EditInvoiceModal({ invoice, onClose, onUpdate }) {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+    const access = localStorage.getItem('access');
+  
     try {
-      const response = await properties.updateinvoice(invoice.invoice_id, formData);
+      const response = await axiosInstance.patch(`/properties/property/invoice/${invoice.invoice_id}/`, formData, {
+        headers: { Authorization: `Bearer ${access}` }
+      });
       if (response.status === 200 || response.data?.status === 1) {
         onUpdate?.(response.data?.data || formData);
         onClose?.();
@@ -39,17 +43,20 @@ export default function EditInvoiceModal({ invoice, onClose, onUpdate }) {
       setLoading(false);
     }
   };
-
+  
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this invoice? This action cannot be undone.')) {
       return;
     }
-
+  
     setLoading(true);
     setError('');
-    
+    const access = localStorage.getItem('access');
+  
     try {
-      const response = await properties.deleteinvoice(invoice.invoice_id);
+      const response = await properties.deleteinvoice(invoice.invoice_id, {
+        headers: { Authorization: `Bearer ${access}` }
+      });
       if (response.status === 200 || response.data?.status === 1) {
         onUpdate?.({ ...invoice, active: false });
         onClose?.();
@@ -63,6 +70,7 @@ export default function EditInvoiceModal({ invoice, onClose, onUpdate }) {
       setLoading(false);
     }
   };
+  
 
   if (!invoice) return null;
 

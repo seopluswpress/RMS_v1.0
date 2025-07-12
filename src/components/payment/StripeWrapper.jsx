@@ -3,11 +3,11 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
 
-const stripePromise = loadStripe("pk_test_51RJCfb4JYgndTz0JNfAdqffcCtIcH0uc1dOlFgwxWMmJvsm2lt6GJloFXp9ukTkVM4504Kn720zmBKxrEZYDbFVt00tz3ftxHi");
+const stripePromise = loadStripe("pk_test_51R1kxKKoXpRZrhi2mmwIprNPKdUFHCN5oR7noYByteNpNcnVHvLxXaGsk7onUpR9G0AzArmtDMVKl6fd4n8uD7mM003piboMP2");
 
 export default function StripeWrapper({ clientSecret, invoice }) {
   const options = {
-    clientSecret,
+    clientSecret, // ✅ FIXED: use the prop passed to this component
     appearance: { theme: 'stripe' },
   };
 
