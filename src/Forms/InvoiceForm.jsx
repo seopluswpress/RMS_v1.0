@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 import { properties } from '../services/api';
+import axiosInstance from '../utils/axiosInstance';
 
 const INVOICE_TYPES = [
   { value: 'Maintannce Fee', label: 'Maintenance Fee' },
@@ -24,25 +25,27 @@ export default function InvoiceForm({ lease, onClose, onInvoiceAdded }) {
     const fetchLeases = async () => {
       try {
         setLoading(true);
-        const response = await properties.getleases();
-        let leasesData = response?.data?.data || [];
-        
+        const access = localStorage.getItem('access');
+    
+        const response = await axiosInstance.get('/properties/lease/', {
+          headers: {
+            Authorization: `Bearer ${access}`
+          }
+        });
+    
+        let leasesData = response?.data?.data || response?.data || [];
+    
         if (!Array.isArray(leasesData)) {
           console.error('Unexpected leases data format:', leasesData);
           setError('Failed to load leases: Invalid data format');
           return;
         }
-
+    
         const processedLeases = leasesData.map(lease => {
-          const propertyName = lease?.property_name || 
-                             lease?.property_id?.property_name || 
-                             'Unknown Property';
-          const unitName = lease?.unit_name || 
-                         lease?.unit_id?.unit_name ||
-                         lease?.unit?.unit_name ||
-                         'Unknown Unit';
+          const propertyName = lease?.property_name || lease?.property_id?.property_name || 'Unknown Property';
+          const unitName = lease?.unit_name || lease?.unit_id?.unit_name || lease?.unit?.unit_name || 'Unknown Unit';
           const displayName = `Lease #${lease.lease_id} - ${propertyName} - ${unitName}`;
-          
+    
           return {
             ...lease,
             property_name: propertyName,
@@ -50,9 +53,9 @@ export default function InvoiceForm({ lease, onClose, onInvoiceAdded }) {
             display_name: displayName
           };
         });
-
+    
         setLeases(processedLeases);
-
+    
         if (!lease && processedLeases.length > 0) {
           setFormData(prev => ({
             ...prev,
@@ -66,6 +69,7 @@ export default function InvoiceForm({ lease, onClose, onInvoiceAdded }) {
         setLoading(false);
       }
     };
+    
 
     fetchLeases();
   }, [lease]);
@@ -78,18 +82,27 @@ export default function InvoiceForm({ lease, onClose, onInvoiceAdded }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+  
     try {
+      const access = localStorage.getItem("access");
+      const userObj = JSON.parse(localStorage.getItem("user"));
+      const userId = userObj?.user_id;
+  
       const payload = {
         ...formData,
         lease: formData.lease_id,
-        amount: Number(formData.amount)
+        amount: Number(formData.amount),
+        created_by: userId
       };
-      
+  
       delete payload.lease_id;
-      
-      const response = await properties.postinvoice(payload);
-      
+  
+      const response = await axiosInstance.post('/properties/property/invoice/', payload, {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+  
       if (response.status === 201 || response.data?.status === 1) {
         alert('Invoice created successfully');
         onInvoiceAdded?.(response.data);
@@ -102,6 +115,7 @@ export default function InvoiceForm({ lease, onClose, onInvoiceAdded }) {
       console.error('Error creating invoice:', err);
     }
   };
+  
 
   if (loading && !lease) {
     return (

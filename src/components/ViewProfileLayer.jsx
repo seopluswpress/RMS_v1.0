@@ -1,10 +1,51 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useProfile } from '../context/ProfileContext';
 
 const ViewProfileLayer = () => {
-    const [imagePreview, setImagePreview] = useState('assets/images/user-grid/user-grid-img13.png');
+    const { profileImage, setProfileImage } = useProfile();
+    const [localImage, setLocalImage] = useState(profileImage);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        if (newPassword !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+        let user = null;
+        try {
+            user = JSON.parse(localStorage.getItem('user'));
+        } catch (e) {}
+        const access = localStorage.getItem('access');
+        if (!user || !access) {
+            alert('User not logged in.');
+            return;
+        }
+        try {
+            await axios.post(
+                `https://hemanth525.pythonanywhere.com/user/${user.user_id}/`,
+                { password: newPassword },
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            alert('Password changed successfully.');
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (err) {
+            alert('Failed to change password.');
+        }
+    };
+
+   
 
     // Toggle function for password field
     const togglePasswordVisibility = () => {
@@ -20,11 +61,47 @@ const ViewProfileLayer = () => {
         if (input.target.files && input.target.files[0]) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                setImagePreview(e.target.result);
+                setLocalImage(e.target.result);
             };
             reader.readAsDataURL(input.target.files[0]);
         }
     };
+
+    const handleSave = async () => {
+        setProfileImage(localImage);
+        // Collect user info from localStorage
+        let user = null;
+        try {
+            user = JSON.parse(localStorage.getItem('user'));
+        } catch (e) {}
+        const access = localStorage.getItem('access');
+        if (!user || !access) {
+            alert('User not logged in.');
+            return;
+        }
+        const payload = {
+            full_name: user.full_name,
+            email: user.email,
+            password: user.password,
+            profile_image: localImage !== profileImage ? localImage : undefined
+        };
+        try {
+            await axios.post(
+                `https://hemanth525.pythonanywhere.com/user/${user.user_id}/`,
+                payload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            alert('Profile updated successfully.');
+        } catch (err) {
+            alert('Failed to update profile.');
+        }
+    };
+
     return (
         <div className="row gy-4">
             <div className="col-lg-4">
@@ -37,12 +114,22 @@ const ViewProfileLayer = () => {
                     <div className="pb-24 ms-16 mb-24 me-16  mt--100">
                         <div className="text-center border border-top-0 border-start-0 border-end-0">
                             <img
-                                src="assets/images/user-grid/user-grid-img14.png"
-                                alt=""
+                                src={profileImage}
+                                alt="Profile"
                                 className="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover"
                             />
-                            <h6 className="mb-0 mt-16">Jacob Jones</h6>
-                            <span className="text-secondary-light mb-16">ifrandom@gmail.com</span>
+                            {(() => {
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('user'));
+    } catch (e) {}
+    const username = user?.username || 'Jacob Jones';
+    const email = user?.email || 'ifrandom@gmail.com';
+    return <>
+        <h6 className="mb-0 mt-16">{username}</h6>
+        <span className="text-secondary-light mb-16">{email}</span>
+    </>;
+})()}
                         </div>
                         <div className="mt-24">
                             <h6 className="text-xl mb-16">Personal Info</h6>
@@ -52,8 +139,12 @@ const ViewProfileLayer = () => {
                                         Full Name
                                     </span>
                                     <span className="w-70 text-secondary-light fw-medium">
-                                        : Will Jonto
-                                    </span>
+    : {(() => {
+        let user = null;
+        try { user = JSON.parse(localStorage.getItem('user')); } catch (e) {}
+        return user?.full_name || user?.username || 'Will Jonto';
+    })()}
+</span>
                                 </li>
                                 <li className="d-flex align-items-center gap-1 mb-12">
                                     <span className="w-30 text-md fw-semibold text-primary-light">
@@ -61,8 +152,12 @@ const ViewProfileLayer = () => {
                                         Email
                                     </span>
                                     <span className="w-70 text-secondary-light fw-medium">
-                                        : willjontoax@gmail.com
-                                    </span>
+    : {(() => {
+        let user = null;
+        try { user = JSON.parse(localStorage.getItem('user')); } catch (e) {}
+        return user?.email || 'willjontoax@gmail.com';
+    })()}
+</span>
                                 </li>
                                 <li className="d-flex align-items-center gap-1 mb-12">
                                     <span className="w-30 text-md fw-semibold text-primary-light">
@@ -70,46 +165,17 @@ const ViewProfileLayer = () => {
                                         Phone Number
                                     </span>
                                     <span className="w-70 text-secondary-light fw-medium">
-                                        : (1) 2536 2561 2365
-                                    </span>
+    : {(() => {
+        let user = null;
+        try { user = JSON.parse(localStorage.getItem('user')); } catch (e) {}
+        return user?.phone || '(1) 2536 2561 2365';
+    })()}
+</span>
                                 </li>
-                                <li className="d-flex align-items-center gap-1 mb-12">
-                                    <span className="w-30 text-md fw-semibold text-primary-light">
-                                        {" "}
-                                        Department
-                                    </span>
-                                    <span className="w-70 text-secondary-light fw-medium">
-                                        : Design
-                                    </span>
-                                </li>
-                                <li className="d-flex align-items-center gap-1 mb-12">
-                                    <span className="w-30 text-md fw-semibold text-primary-light">
-                                        {" "}
-                                        Designation
-                                    </span>
-                                    <span className="w-70 text-secondary-light fw-medium">
-                                        : UI UX Designer
-                                    </span>
-                                </li>
-                                <li className="d-flex align-items-center gap-1 mb-12">
-                                    <span className="w-30 text-md fw-semibold text-primary-light">
-                                        {" "}
-                                        Languages
-                                    </span>
-                                    <span className="w-70 text-secondary-light fw-medium">
-                                        : English
-                                    </span>
-                                </li>
-                                <li className="d-flex align-items-center gap-1">
-                                    <span className="w-30 text-md fw-semibold text-primary-light">
-                                        {" "}
-                                        Bio
-                                    </span>
-                                    <span className="w-70 text-secondary-light fw-medium">
-                                        : Lorem Ipsum&nbsp;is simply dummy text of the printing and
-                                        typesetting industry.
-                                    </span>
-                                </li>
+                               
+                              
+                                
+                                
                             </ul>
                         </div>
                     </div>
@@ -167,8 +233,170 @@ const ViewProfileLayer = () => {
                                     Notification Settings
                                 </button>
                             </li>
+                            <li className="nav-item" role="presentation">
+    <button
+        className="nav-link d-flex align-items-center px-24"
+        id="pills-logo-tab"
+        data-bs-toggle="pill"
+        data-bs-target="#pills-logo"
+        type="button"
+        role="tab"
+        aria-controls="pills-logo"
+        aria-selected="false"
+        tabIndex={-1}
+    >
+        Logo
+    </button>
+</li>
+
                         </ul>
                         <div className="tab-content" id="pills-tabContent">
+                            {/* Logo Upload Tab */}
+                            <div
+    className="tab-pane fade"
+    id="pills-logo"
+    role="tabpanel"
+    aria-labelledby="pills-logo-tab"
+    tabIndex={0}
+>
+    <div className="row gy-4 justify-content-center">
+        <div className="col-md-6">
+            <label
+                htmlFor="profileLogoUpload"
+                className="form-label fw-semibold text-secondary-light text-md mb-8"
+            >
+                Logo <span className="text-secondary-light fw-normal">(140px X 140px)</span>
+            </label>
+            <input
+                type="file"
+                className="form-control radius-8"
+                id="profileLogoUpload"
+                onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function (ev) {
+                            document.getElementById('profileLogoPreview').style.backgroundImage = `url(${ev.target.result})`;
+                        };
+                        reader.readAsDataURL(e.target.files[0]);
+                    }
+                }}
+            />
+            <div className="avatar-upload mt-16">
+                <div className="avatar-preview style-two">
+                    <div
+                        id="profileLogoPreview"
+                        style={{
+                            backgroundImage: '',
+                            width: 140,
+                            height: 140,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            borderRadius: '12px',
+                            border: '1px solid #eee'
+                        }}
+                    ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                            {/* Notification Settings Tab */}
+                            <div
+                                className="tab-pane fade"
+                                id="pills-notification"
+                                role="tabpanel"
+                                aria-labelledby="pills-notification-tab"
+                                tabIndex={0}
+                            >
+                                <div className="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                                    <label
+                                        htmlFor="companzNew"
+                                        className="position-absolute w-100 h-100 start-0 top-0"
+                                    />
+                                    <div className="d-flex align-items-center gap-3 justify-content-between">
+                                        <span className="form-check-label line-height-1 fw-medium text-secondary-light">
+                                            Company News
+                                        </span>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="companzNew"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                                    <label
+                                        htmlFor="pushNotifcation"
+                                        className="position-absolute w-100 h-100 start-0 top-0"
+                                    />
+                                    <div className="d-flex align-items-center gap-3 justify-content-between">
+                                        <span className="form-check-label line-height-1 fw-medium text-secondary-light">
+                                            Push Notification
+                                        </span>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="pushNotifcation"
+                                            defaultChecked=""
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                                    <label
+                                        htmlFor="weeklyLetters"
+                                        className="position-absolute w-100 h-100 start-0 top-0"
+                                    />
+                                    <div className="d-flex align-items-center gap-3 justify-content-between">
+                                        <span className="form-check-label line-height-1 fw-medium text-secondary-light">
+                                            Weekly News Letters
+                                        </span>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="weeklyLetters"
+                                            defaultChecked=""
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                                    <label
+                                        htmlFor="meetUp"
+                                        className="position-absolute w-100 h-100 start-0 top-0"
+                                    />
+                                    <div className="d-flex align-items-center gap-3 justify-content-between">
+                                        <span className="form-check-label line-height-1 fw-medium text-secondary-light">
+                                            Meetups Near you
+                                        </span>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="meetUp"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                                    <label
+                                        htmlFor="orderNotification"
+                                        className="position-absolute w-100 h-100 start-0 top-0"
+                                    />
+                                    <div className="d-flex align-items-center gap-3 justify-content-between">
+                                        <span className="form-check-label line-height-1 fw-medium text-secondary-light">
+                                            Orders Notifications
+                                        </span>
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="orderNotification"
+                                            defaultChecked=""
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div
                                 className="tab-pane fade show active"
                                 id="pills-edit-profile"
@@ -199,7 +427,7 @@ const ViewProfileLayer = () => {
                                             <div
                                                 id="imagePreview"
                                                 style={{
-                                                    backgroundImage: `url(${imagePreview})`,
+                                                    backgroundImage: `url(${localImage})`,
                                                     backgroundSize: 'cover',
                                                     backgroundPosition: 'center'
                                                 }}
@@ -259,93 +487,9 @@ const ViewProfileLayer = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="col-sm-6">
-                                            <div className="mb-20">
-                                                <label
-                                                    htmlFor="depart"
-                                                    className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                                >
-                                                    Department
-                                                    <span className="text-danger-600">*</span>{" "}
-                                                </label>
-                                                <select
-                                                    className="form-control radius-8 form-select"
-                                                    id="depart"
-                                                    defaultValue="Select Event Title"
-                                                >
-                                                    <option value="Select Event Title" disabled>
-                                                        Select Event Title
-                                                    </option>
-                                                    <option value="Enter Event Title">Enter Event Title</option>
-                                                    <option value="Enter Event Title One">Enter Event Title One</option>
-                                                    <option value="Enter Event Title Two">Enter Event Title Two</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <div className="mb-20">
-                                                <label
-                                                    htmlFor="desig"
-                                                    className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                                >
-                                                    Designation
-                                                    <span className="text-danger-600">*</span>{" "}
-                                                </label>
-                                                <select
-                                                    className="form-control radius-8 form-select"
-                                                    id="desig"
-                                                    defaultValue="Select Designation Title"
-                                                >
-                                                    <option value="Select Designation Title" disabled>
-                                                        Select Designation Title
-                                                    </option>
-                                                    <option value="Enter Designation Title">Enter Designation Title</option>
-                                                    <option value="Enter Designation Title One">Enter Designation Title One</option>
-                                                    <option value="Enter Designation Title Two">Enter Designation Title Two</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6">
-                                            <div className="mb-20">
-                                                <label
-                                                    htmlFor="Language"
-                                                    className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                                >
-                                                    Language
-                                                    <span className="text-danger-600">*</span>{" "}
-                                                </label>
-                                                <select
-                                                    className="form-control radius-8 form-select"
-                                                    id="Language"
-                                                    defaultValue="Select Language"
-                                                >
-                                                    <option value="Select Language" disabled>
-                                                        Select Language
-                                                    </option>
-                                                    <option value="English">English</option>
-                                                    <option value="Bangla">Bangla</option>
-                                                    <option value="Hindi">Hindi</option>
-                                                    <option value="Arabic">Arabic</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-12">
-                                            <div className="mb-20">
-                                                <label
-                                                    htmlFor="desc"
-                                                    className="form-label fw-semibold text-primary-light text-sm mb-8"
-                                                >
-                                                    Description
-                                                </label>
-                                                <textarea
-                                                    name="#0"
-                                                    className="form-control radius-8"
-                                                    id="desc"
-                                                    placeholder="Write description..."
-                                                    defaultValue={""}
-                                                />
-                                            </div>
-                                        </div>
+                                        
+                                
+                                       
                                     </div>
                                     <div className="d-flex align-items-center justify-content-center gap-3">
                                         <button
@@ -357,6 +501,7 @@ const ViewProfileLayer = () => {
                                         <button
                                             type="button"
                                             className="btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8"
+                                            onClick={handleSave}
                                         >
                                             Save
                                         </button>
@@ -364,42 +509,52 @@ const ViewProfileLayer = () => {
                                 </form>
                             </div>
                             <div className="tab-pane fade" id="pills-change-passwork" role="tabpanel" aria-labelledby="pills-change-passwork-tab" tabIndex="0">
-                                <div className="mb-20">
-                                    <label htmlFor="your-password" className="form-label fw-semibold text-primary-light text-sm mb-8">
-                                        New Password <span className="text-danger-600">*</span>
-                                    </label>
-                                    <div className="position-relative">
-                                        <input
-                                            type={passwordVisible ? "text" : "password"}
-                                            className="form-control radius-8"
-                                            id="your-password"
-                                            placeholder="Enter New Password*"
-                                        />
-                                        <span
-                                            className={`toggle-password ${passwordVisible ? "ri-eye-off-line" : "ri-eye-line"} cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light`}
-                                            onClick={togglePasswordVisibility}
-                                        ></span>
-                                    </div>
-                                </div>
-
-                                <div className="mb-20">
-                                    <label htmlFor="confirm-password" className="form-label fw-semibold text-primary-light text-sm mb-8">
-                                        Confirm Password <span className="text-danger-600">*</span>
-                                    </label>
-                                    <div className="position-relative">
-                                        <input
-                                            type={confirmPasswordVisible ? "text" : "password"}
-                                            className="form-control radius-8"
-                                            id="confirm-password"
-                                            placeholder="Confirm Password*"
-                                        />
-                                        <span
-                                            className={`toggle-password ${confirmPasswordVisible ? "ri-eye-off-line" : "ri-eye-line"} cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light`}
-                                            onClick={toggleConfirmPasswordVisibility}
-                                        ></span>
-                                    </div>
-                                </div>
-                            </div>
+    <form onSubmit={handlePasswordChange}>
+        <div className="mb-20">
+            <label htmlFor="your-password" className="form-label fw-semibold text-primary-light text-sm mb-8">
+                New Password <span className="text-danger-600">*</span>
+            </label>
+            <div className="position-relative">
+                <input
+                    type={passwordVisible ? "text" : "password"}
+                    className="form-control radius-8"
+                    id="your-password"
+                    placeholder="Enter New Password*"
+                    value={newPassword}
+                    onChange={e => setNewPassword(e.target.value)}
+                />
+                <span
+                    className={`toggle-password ${passwordVisible ? "ri-eye-off-line" : "ri-eye-line"} cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light`}
+                    onClick={togglePasswordVisibility}
+                ></span>
+            </div>
+        </div>
+        <div className="mb-20">
+            <label htmlFor="confirm-password" className="form-label fw-semibold text-primary-light text-sm mb-8">
+                Confirm Password <span className="text-danger-600">*</span>
+            </label>
+            <div className="position-relative">
+                <input
+                    type={confirmPasswordVisible ? "text" : "password"}
+                    className="form-control radius-8"
+                    id="confirm-password"
+                    placeholder="Confirm Password*"
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                />
+                <span
+                    className={`toggle-password ${confirmPasswordVisible ? "ri-eye-off-line" : "ri-eye-line"} cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light`}
+                    onClick={toggleConfirmPasswordVisibility}
+                ></span>
+            </div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center gap-3">
+            <button type="submit" className="btn btn-primary px-56 py-12 radius-8">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
                             <div
                                 className="tab-pane fade"
                                 id="pills-notification"

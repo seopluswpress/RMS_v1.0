@@ -1,157 +1,186 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { Link } from 'react-router-dom'
-import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const UnitCountFour = () => {
-    return (
-        <div className="row">
-            <div className='col-12 mb-8'>
-                          <div className='trail-bg h-100 text-center d-flex flex-column justify-content-between align-items-center p-16 radius-8'>
-                            <h6 className='text-white text-xl'>Upgrade Your Plan</h6>
-                            <div className=''>
-                              <p className='text-white'>
-                                Your free trial expired in 7 days
-                              </p>
-                              <Link
-                                to='#'
-                                className='btn py-8 rounded-pill w-100 bg-gradient-blue-warning text-sm'
-                              >
-                                Upgrade Now
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-            {/* Dashboard Widget Start */}
-            <div className="col-12 col-md-6 mb-8">
-                <div className="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-3">
-                    <div className="card-body p-0">
-                        <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                            <div className="d-flex align-items-center">
-                                <div className="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
-                                    <span className="mb-0 w-40-px h-40-px bg-primary-600 flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
-                                        <Icon
-                                            icon="flowbite:users-group-solid"
-                                            className="icon"
-                                        />
-                                    </span>
-                                </div>
-                                <div>
-                                    <span className="mb-2 fw-medium text-secondary-light text-md">
-                                        Total Tenants
-                                    </span>
-                                    <h6 className="fw-semibold my-1">5000</h6>
-                                    <p className="text-sm mb-0">
-                                        Increase by {" "}
-                                        <span className="bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm">
-                                            +200
-                                        </span>{" "}
-                                        this week
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Dashboard Widget End */}
-            <div className="col-12 col-md-6 mb-8">
-                <div className="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-2">
-                    <div className="card-body p-0">
-                        <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                            <div className="d-flex align-items-center">
-                                <div className="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
-                                    <span className="mb-0 w-40-px h-40-px bg-purple flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
-                                        <Icon
-                                            icon="mdi:office-building"
-                                            className="text-white text-2xl mb-0"
-                                        />
-                                    </span>
-                                </div>
-                                <div>
-                                    <span className="mb-2 fw-medium text-secondary-light text-md">
-                                        Total Properties
-                                    </span>
-                                    <h6 className="fw-semibold my-1">15,000</h6>
-                                    <p className="text-sm mb-0">
-                                        Increase by {" "}
-                                        <span className="bg-danger-focus px-1 rounded-2 fw-medium text-danger-main text-sm">
-                                            -200
-                                        </span>{" "}
-                                        this week
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Dashboard Widget End */}
-            <div className="col-12 col-md-6 mb-8">
-                <div className="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-5">
-                    <div className="card-body p-0">
-                        <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                            <div className="d-flex align-items-center">
-                                <div className="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
-                                    <span className="mb-0 w-40-px h-40-px bg-red flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
-                                        <Icon
-                                            icon="fa6-solid:file-invoice-dollar"
-                                            className="text-white text-2xl mb-0"
-                                        />
-                                    </span>
-                                </div>
-                                <div>
-                                    <span className="mb-2 fw-medium text-secondary-light text-md">
-                                        Total Expense
-                                    </span>
-                                    <h6 className="fw-semibold my-1">15,000</h6>
-                                    <p className="text-sm mb-0">
-                                        Increase by {" "}
-                                        <span className="bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm">
-                                            +200
-                                        </span>
-                                        this week
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Dashboard Widget End */}
-            <div className="col-12 col-md-6 mb-8">
-                <div className="card px-24 py-16 shadow-none radius-8 border h-100 bg-gradient-start-4">
-                    <div className="card-body p-0">
-                        <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
-                            <div className="d-flex align-items-center">
-                                <div className="w-64-px h-64-px radius-16 bg-base-50 d-flex justify-content-center align-items-center me-20">
-                                    <span className="mb-0 w-40-px h-40-px bg-success-main flex-shrink-0 text-white d-flex justify-content-center align-items-center radius-8 h6 mb-0">
-                                        <Icon
-                                            icon="streamline:bag-dollar-solid"
-                                            className="icon"
-                                        />
-                                    </span>
-                                </div>
-                                <div>
-                                    <span className="mb-2 fw-medium text-secondary-light text-md">
-                                        Total income
-                                    </span>
-                                    <h6 className="fw-semibold my-1">15,000</h6>
-                                    <p className="text-sm mb-0">
-                                        Increase by {" "}
-                                        <span className="bg-success-focus px-1 rounded-2 fw-medium text-success-main text-sm">
-                                            +200
-                                        </span>{" "}
-                                        this week
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/* Dashboard Widget End */}
-</div>
-    )
-}
+  const navigate = useNavigate();
+  const [status, setStatus] = useState('loading');
+  const [daysLeft, setDaysLeft] = useState(null);
+  const [planDetails, setPlanDetails] = useState(null);
+  const [propertyCount, setPropertyCount] = useState(null);
+  const [tenantCount, setTenantCount] = useState(null);
+  const [totalIncome, setTotalIncome] = useState(null);
+  const [maintenanceCount, setMaintenanceCount] = useState(null);
 
-export default UnitCountFour
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem('access');
+
+    if (!user || !token) {
+      setStatus('no_user');
+      return;
+    }
+
+    // Subscription fetch
+    axios.get(`/accounts/api/subscribe/?user_id=${user.user_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (res.data.status === 'success') {
+          const { end_date, plan, price, start_date } = res.data.subscription;
+          setPlanDetails({ plan, price, start_date, end_date });
+          const endDate = new Date(end_date);
+          const now = new Date();
+          const diff = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
+          if (diff > 0) {
+            setStatus('trial');
+            setDaysLeft(diff);
+          } else {
+            setStatus('expired');
+            setDaysLeft(0);
+          }
+        } else {
+          setStatus('expired');
+        }
+      })
+      .catch(() => setStatus('expired'));
+
+    // Property count fetch
+    axios.get(`https://hemanth525.pythonanywhere.com/properties/property_list/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        const data = res.data?.data || res.data || [];
+        setPropertyCount(Array.isArray(data) ? data.length : 0);
+      })
+      .catch(() => setPropertyCount(0));
+
+    // Tenant count fetch
+    axios.get(`https://hemanth525.pythonanywhere.com/user/tenant/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        const data = res.data?.data || res.data || [];
+        setTenantCount(Array.isArray(data) ? data.length : 0);
+      })
+      .catch(() => setTenantCount(0));
+
+    // Income fetch
+    axios.get(`https://hemanth525.pythonanywhere.com/properties/property/invoice/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        const invoices = res.data?.data || [];
+        const paid = invoices.filter(inv => inv.status?.toLowerCase() === 'paid');
+        const total = paid.reduce((sum, inv) => sum + (parseFloat(inv.amount) || 0), 0);
+        setTotalIncome(total);
+      })
+      .catch(() => setTotalIncome(0));
+
+    // Maintenance count
+    axios.get(`https://hemanth525.pythonanywhere.com/properties/maintainence/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(res => {
+        const data = res.data?.data || [];
+        setMaintenanceCount(data.length);
+      })
+      .catch(() => setMaintenanceCount(0));
+  }, []);
+
+  return (
+    <div className="container-fluid p-0 pt-3 ps-3">
+      {/* First Row */}
+      <div className="row mb-3">
+        {/* Total Tenants */}
+        <div className="col-md-6 mb-3 mb-md-0">
+          <div className="card shadow-none border bg-gradient-start-3 h-100">
+            <div className="card-body p-20">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <p className="fw-medium text-primary-light mb-1">Total Tenants</p>
+                  <h6 className="mb-0">{tenantCount ?? '--'}</h6>
+                </div>
+                <div className="w-50-px h-50-px bg-warning rounded-circle d-flex justify-content-center align-items-center">
+                  <Icon icon="mdi:account-group" className="text-white text-2xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Total Properties */}
+        <div className="col-md-6 ps-3">
+          <div className="card shadow-none border bg-gradient-start-2 h-100">
+            <div className="card-body p-20">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <p className="fw-medium text-primary-light mb-1">Total Properties</p>
+                  <h6 className="mb-0">{propertyCount ?? '--'}</h6>
+                </div>
+                <div className="w-50-px h-50-px bg-primary-600 rounded-circle d-flex justify-content-center align-items-center">
+                  <Icon icon="mdi:home-city" className="text-white text-2xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Second Row */}
+      <div className="row">
+        {/* Total Maintenance Requests */}
+        <div className="col-md-6 mb-3 mb-md-0">
+          <div className="card shadow-none border bg-gradient-start-5 h-100">
+            <div className="card-body p-20">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <p className="fw-medium text-primary-light mb-1">Maintenance Requests</p>
+                  <h6 className="mb-0">{maintenanceCount ?? '--'}</h6>
+                </div>
+                <div className="w-50-px h-50-px bg-danger rounded-circle d-flex justify-content-center align-items-center">
+                  <Icon icon="ph:wrench" className="text-white text-2xl" style={{ position: 'relative', top: '-1px' }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Total Income */}
+        <div className="col-md-6 ps-3">
+          <div className="card shadow-none border bg-gradient-start-4 h-100">
+            <div className="card-body p-20">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <p className="fw-medium text-primary-light mb-1">Total Income</p>
+                  <h6 className="mb-0">₹ {totalIncome ?? '--'}</h6>
+                </div>
+                <div className="w-50-px h-50-px bg-success rounded-circle d-flex justify-content-center align-items-center">
+                  <Icon icon="streamline:bag-dollar-solid" className="text-white text-2xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UnitCountFour;

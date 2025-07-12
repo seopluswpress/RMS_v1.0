@@ -219,7 +219,8 @@ const UnitAdd = ({ onClose, onUnitAdded, property }) => {
             
             <button
               type="submit"
-              className="btn btn-primary-600 d-flex align-items-center gap-1"
+              className="btn d-flex align-items-center gap-1"
+              style={{ backgroundColor: '#30314f', color: '#fff', borderColor: '#30314f' }}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Submitting...' : 'Submit'}

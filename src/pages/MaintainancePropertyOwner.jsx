@@ -1,5 +1,5 @@
 import React from "react";
-import PropertyOwner2Sidebar from "../components/PropertyOwner2Sidebar";
+import PropertyOwner2Sidebar from "../components/PropertyOwner/PropertyOwner2Sidebar";
 import Maintainance from '../pages1/Maintenance';
 
 const MaintainancePropertyOwner = () => (

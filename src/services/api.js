@@ -44,11 +44,14 @@ export const dashboardService = {
 
 export const properties = {
   getProperties: () => api.get('properties/property_list/'),
+  getowners: () => api.get('user/property-owner/'),
   getUnits: () => api.get('properties/unit/'),
   gettenants: () => api.get('user/tenant/'),
   getleases: () => api.get('properties/lease/'), // Added trailing slash
   getLease: (id) => api.get(`properties/lease/${id}/`), // Get single lease by ID
   postunit: (data) => api.post('properties/unit/', data),
+  getmanager: () => api.get('user/manager/'),
+  postplan: (planId, data) => api.patch(`accounts/plan/${planId}/`, data),
 
   // Invoice endpoints
   getinvoices: () => api.get('properties/property/invoice/'),

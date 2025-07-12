@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiX } from 'react-icons/fi';
 import { Icon } from '@iconify/react';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 
 const PropertyForm = ({ onClose, onPropertyAdded, onSubmit, property }) => {
   const [formData, setFormData] = useState({
@@ -59,19 +59,19 @@ const PropertyForm = ({ onClose, onPropertyAdded, onSubmit, property }) => {
     setError('');
 
     try {
-      const token = localStorage.getItem('token');
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${token}`
-      };
+      // Get the access token with the correct key
+      const token = localStorage.getItem('access');
+      const userId = localStorage.getItem('user_id');
       const payload = { ...formData };
+      
+
 
       if (property) {
+        // Update existing property
         const id = property.id || property.property_id;
-        const response = await axios.patch(
-          `https://hemanth525.pythonanywhere.com/properties/property/${id}/`,
-          payload,
-          { headers }
+        const response = await axiosInstance.patch(
+          `/properties/property/${id}/`,
+          payload
         );
 
         // Check for successful status (2xx range)
@@ -82,12 +82,14 @@ const PropertyForm = ({ onClose, onPropertyAdded, onSubmit, property }) => {
           throw new Error(`Unexpected status code: ${response.status}`);
         }
       } else {
-        const response = await axios.post(
-          `https://hemanth525.pythonanywhere.com/properties/property_list/`,
-          payload,
-          { headers }
+        // Create new property
+        const response = await axiosInstance.post(
+          `/properties/property/`,
+          payload
         );
-
+        
+        console.log("Property creation response:", response.status, response.data);
+        
         // Check for successful status (2xx range)
         if (response.status >= 200 && response.status < 300) {
           await (onPropertyAdded && onPropertyAdded(response.data));
@@ -98,13 +100,9 @@ const PropertyForm = ({ onClose, onPropertyAdded, onSubmit, property }) => {
       }
     } catch (err) {
       console.error('Form submission error:', err);
-      const res = err.response?.data;
-      const message =
-        res?.non_field_errors?.join(', ') ||
-        (typeof res === 'object' && res !== null
-          ? Object.entries(res).map(([k, v]) => `${k}: ${v}`).join('; ')
-          : err.message || 'An error occurred while saving the property');
-      setError(message);
+      const res = err.response?.data || err.message;
+      const message = typeof res === 'object' ? JSON.stringify(res) : res;
+      setError(message || 'An error occurred while saving the property');
     } finally {
       setIsSubmitting(false);
     }
@@ -287,6 +285,7 @@ const PropertyForm = ({ onClose, onPropertyAdded, onSubmit, property }) => {
             <button
               type="submit"
               className="btn btn-primary-600 d-flex align-items-center gap-1"
+              style={{ backgroundColor: '#30314f', color: 'white' }}
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Submitting...' : 'Submit'}

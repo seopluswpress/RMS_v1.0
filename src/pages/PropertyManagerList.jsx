@@ -1,11 +1,11 @@
 import React from "react";
-import PropertyOwner2Sidebar from "../components/PropertyOwner2Sidebar";
+import PropertyOwner2Sidebar from "../components/PropertyOwner/PropertyOwner2Sidebar";
+import Manager from "../pages1/Managers"
 
 const PropertyManagerList = () => (
   <PropertyOwner2Sidebar>
     <div style={{ padding: 40, textAlign: "center" }}>
-      <h1>Property Manager List</h1>
-      <p>This is a dummy page for Property Manager List. Replace with real data as needed.</p>
+      <Manager/>
     </div>
   </PropertyOwner2Sidebar>
 );

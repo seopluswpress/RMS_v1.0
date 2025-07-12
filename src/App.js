@@ -1,16 +1,21 @@
+import React from 'react';
+import { ProfileProvider } from './context/ProfileContext';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MaintenancePage from "./pages/MaintenancePageTenant";
 
 
 import EmailPage from "./pages/EmailPage";
-import AddUserPage from "./pages/AddUserPage";
-import AlertPage from "./pages/AlertPage";
-import AssignRolePage from "./pages/AssignRolePage";
+import ViewProfilewologo from "./components/ViewProfilewologo";
+import SubscriptionSuccess from "./pages/SubscriptionSuccess";
+import TenantScreening from "./pages1/TenantScreening";
+import TenantScreeningForm from "./pages1/TenantScreeningForm";
+import TenantScreeningApprove from "./pages1/TenantScreeningApprove";
+import TenantScreeningList from "./pages1/TenantScreeningList";
 
 
-import CalendarMainPage from "./pages/CalendarMainPage";
-import CardPage from "./pages/CardPage";
+
+
 
 import ChatEmptyPage from "./pages/ChatEmptyPage";
 import ChatMessagePage from "./pages/ChatMessagePage";
@@ -18,22 +23,19 @@ import ChatProfilePage from "./pages/ChatProfilePage";
 
 
 import ColorsPage from "./pages/ColorsPage";
-import ColumnChartPage from "./pages/ColumnChartPage";
+
 import CompanyLayer from "./components/CompanyLayer";
-import PropertyManager2Sidebar from "./components/PropertyManager2Sidebar";
+import PropertyManager2Sidebar from "./components/PropertyManager/PropertyManager2Sidebar";
 import CompanyPage from "./pages/CompanyPage";
-import CurrenciesPage from "./pages/CurrenciesPage";
-import DropdownPage from "./pages/DropdownPage";
-import ErrorPage from "./pages/ErrorPage";
-import SuperAdminCombinedDashboard from "./components/SuperAdminCombinedDashboard";
-import PropertyManagerCombinedDashboard from "./components/PropertyManagerCombinedDashboard";
+
+
+import SuperAdminCombinedDashboard from './components/Superadmin/SuperAdminCombinedDashboard';
+import PropertyManagerCombinedDashboard from "./components/PropertyManager/PropertyManagerCombinedDashboard";
 import FaqPage from "./pages/FaqPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import FormLayoutPage from "./pages/FormLayoutPage";
-import FormValidationPage from "./pages/FormValidationPage";
-import FormPage from "./pages/FormPage";
-import GalleryPage from "./pages/GalleryPage";
-import ImageGeneratorPage from "./pages/ImageGeneratorPage";
+
+
+
 import ImageUploadPage from "./pages/ImageUploadPage";
 import InvoiceAddPage from "./pages/InvoiceAddPage";
 import InvoiceEditPage from "./pages/InvoiceEditPage";
@@ -41,32 +43,29 @@ import InvoiceListPage from "./pages/InvoiceListPage";
 import InvoicePreviewPage from "./pages/InvoicePreviewPage";
 import KanbanPage from "./pages/KanbanPage";
 import LanguagePage from "./pages/LanguagePage";
+import SubscriptionPage from "./pages/SubscriptionPage";
 import SignUp from './pages1/SignUp';
 
-import ListPage from "./pages/ListPage";
-import MarketplaceDetailsPage from "./pages/MarketplaceDetailsPage";
-import MarketplacePage from "./pages/MarketplacePage";
+
+
+
 import NotificationAlertPage from "./pages/NotificationAlertPage";
 import NotificationPage from "./pages/NotificationPage";
-import PaginationPage from "./pages/PaginationPage";
+
 import PaymentGatewayPage from "./pages/PaymentGatewayPage";
 import Paymentpage from './components/payment/PaymentPage'
 import PaymentSuccess from './components/payment/PaymentSuccess'
 import CheckoutForm from './components/payment/CheckoutForm'
 
-import PortfolioPage from "./pages/PortfolioPage";
-import PricingPage from "./pages/PricingPage";
-import ProgressPage from "./pages/ProgressPage";
+
 import Payments1 from "./pages1/Payments1";
 
-import RoleAccessPage from "./pages/RoleAccessPage";
-import SignIn from './pages1/SignIn';
-import StarRatingPage from "./pages/StarRatingPage";
-import StarredPage from "./pages/StarredPage";
-import SwitchPage from "./pages/SwitchPage";
-import TableBasicPage from "./pages/TableBasicPage";
-import TableDataPage from "./pages/TableDataPage";
-import TabsPage from "./pages/TabsPage";
+
+
+
+
+
+
 
 import TermsConditionPage from "./pages/TermsConditionPage";
 
@@ -78,32 +77,33 @@ import OwnersListPage from "./pages/OwnersListPage";
 import ViewDetailsPage from "./pages/ViewDetailsPage";
 
 import ViewProfilePage from "./pages/ViewProfilePage";
+import ViewProfileLayer from "./components/ViewProfileLayer";
 
 
 import RouteScrollToTop from "./helper/RouteScrollToTop";
-
+import PropInvoice from "./components/PropertyOwner/PropInvoice";
 
 import PaymentPage from "./components/payment/PaymentPage";
-import GalleryGridPage from "./pages/GalleryGridPage";
-import GalleryMasonryPage from "./pages/GalleryMasonryPage";
-import GalleryHoverPage from "./pages/GalleryHoverPage";
 
-import TestimonialsPage from "./pages/TestimonialsPage";
-import ComingSoonPage from "./pages/ComingSoonPage";
-import AccessDeniedPage from "./pages/AccessDeniedPage";
 
-import PropertyOwnerSidebar from "./components/PropertyOwnerSidebar";
 
-import PropertyOwnerCombinedDashboard from './components/PropertyOwnerCombinedDashboard';
-import TenantSidebar from "./components/TenantSidebar";
+import Settings1 from "./components/Settings1";
+import PaymentGatewayLayer from "./components/PaymentGatewayLayer";
 
-import TenantCombinedDashboard from './components/TenantCombinedDashboard';
-import PropertyManagerSidebar from "./components/PropertyManagerSidebar";
 
-import SuperAdminSidebar from "./components/SuperAdminSidebar";
+import PropertyOwnerSidebar from "./components/PropertyOwner/PropertyOwnerSidebar";
+
+import PropertyOwnerCombinedDashboard from './components/PropertyOwner/PropertyOwnerCombinedDashboard';
+import TenantSidebar from "./components/Tenant/TenantSidebar";
+
+import TenantCombinedDashboard from './components/Tenant/TenantCombinedDashboard';
+import PropertyManagerSidebar from "./components/PropertyManager/PropertyManagerSidebar";
+
+import SuperAdminSidebar from "./components/Superadmin/SuperAdminSidebar";
 import MaintenancePageTenant from "./pages/MaintenancePageTenant";
 import PropertyList from "./pages/PropertyListPropertyOwner";
 import TenantsList from "./pages/TenantsList";
+import OwnersList from "./pages/OwnersListPage";
 import LeasePropertyOwner from "./pages/LeasePropertyOwner";
 import InvoicePropertyOwner from "./pages/InvoicePropertyOwner";
 import MaintainancePropertyOwner from "./pages/MaintainancePropertyOwner";
@@ -112,21 +112,41 @@ import PropertyListPropertyOwner from "./pages/PropertyListPropertyOwner";
 import PropertyListPropertyManager from "./pages/PropertyListPropertyManager";
 import MaintainancePropertyManager from "./pages/MaintainancePropertyManager";
 import InvoiceTenant from "./pages/InvoiceTenant";
-import Tenant2Sidebar from "./components/Tenant2Sidebar";
-import Sa2Sidebar from "./components/Sa2Sidebar";
-import PropertyOwner2Sidebar from "./components/PropertyOwner2Sidebar";
+import Tenant2Sidebar from "./components/Tenant/Tenant2Sidebar";
+import Sa2Sidebar from "./components/Superadmin/Sa2Sidebar";
+import PropertyOwner2Sidebar from "./components/PropertyOwner/PropertyOwner2Sidebar";
 import PaymentsTenants from "./pages/PaymentsTenants";
+import CalendarMainLayer from "./components/CalendarMainLayer";
+import SubscriptionPackages from "./pages/SubscriptionPackages";
+import NotificationLayer from "./components/NotificationLayer";
+import NotificationAlertLayer from "./components/NotificationAlertLayer";
+import Settings2 from "./components/Settings2";
+import UserDashboardRouter from "./pages1/UserDashboardRouter";
+import { Navigate } from "react-router-dom";
+import LoginPage from "./pages1/LoginPage";
+import ErrorLayer from './components/ErrorLayer';
+import CalendarMainPage from "./pages/CalendarMainPage";
+
+
+
+
 function App() {
+  const PrivateRoute = ({ children }) => {
+    const isLoggedIn = !!localStorage.getItem("access");
+    return isLoggedIn ? children : <Navigate to="/" />;
+  };
   return (
-    <BrowserRouter>
-      <RouteScrollToTop />
-      <Routes>
+    <ProfileProvider>
+      <BrowserRouter>
+        <RouteScrollToTop />
+        <Routes>
+      <Route exact path='/' element={<LoginPage />} />
         <Route exact path='/signup' element={<SignUp />} />
-        <Route exact path='/signin' element={<SignIn />} />
-        <Route exact path='/tenant-dashboard' element={<TenantSidebar />} />
-        <Route exact path='/super-admin-dashboard' element={<SuperAdminSidebar />} />
-        <Route exact path='/propertyowner-dashboard' element={<PropertyOwnerSidebar />} />
-        <Route exact path='/propertymanager-dashboard' element={<PropertyManagerSidebar />} />
+        
+        
+        
+        
+        
 
         <Route exact path='/MaintenancePageTenant' element={<MaintenancePageTenant />} />
         <Route exact path='/lease-list' element={<LeasePropertyOwner />} />
@@ -138,122 +158,189 @@ function App() {
         <Route exact path='/property-manager-list' element={<PropertyManagerList />} />
         <Route exact path='/property-list-property-manager' element={<PropertyListPropertyManager />} />
         <Route exact path='/payment-list-tenant' element={<PaymentsTenants />} />
+
       
        
 
         {/* SL */}
-        <Route exact path='/add-user' element={<AddUserPage />} />
-        <Route exact path='/alert' element={<AlertPage />} />
-        <Route exact path='/assign-role' element={<AssignRolePage />} />
-       
+        
         
     
+       
+        
+        <Route path="/dashboard" element={<PrivateRoute><UserDashboardRouter /></PrivateRoute>} />
         <Route exact path='/payments1' element={<Payments1/>} />
-        <Route exact path='/calendar' element={<CalendarMainPage />} />
-        <Route exact path='/card' element={<CardPage />} />
+        <Route exact path='/calendar-main' element={<CalendarMainPage />} />
+
+        <Route exact path='/owners-list' element={<OwnersListPage/>} />
+    
+        
      
         <Route exact path='/chat-empty' element={<ChatEmptyPage />} />
         <Route exact path='/chat-message' element={<ChatMessagePage />} />
         <Route exact path='/chat-profile' element={<ChatProfilePage />} />
         
         <Route path="/pay/:invoiceId/" element={<Paymentpage/>} />
-        <Route path="/payment-success/:invoiceId" element={<PaymentSuccess />} />
+        <Route path="/payment-success/:invoiceId" element={<Tenant2Sidebar><PaymentSuccess /></Tenant2Sidebar>} />
         <Route exact path='/colors' element={<ColorsPage />} />
-        <Route exact path='/column-chart' element={<ColumnChartPage />} />
+        
         <Route exact path='/company' element={<CompanyPage />} />
-        <Route exact path='/currencies' element={<CurrenciesPage />} />
+        
         <Route exact path='/propertymanagercompanylayer' element={
   <PropertyManager2Sidebar>
-    <CompanyLayer />
+    <Settings2 basePath="/propertymanager" />
   </PropertyManager2Sidebar>
 } />
 <Route exact path='/tenantcompanylayer' element={
   <Tenant2Sidebar>
-    <CompanyLayer />
+    <Settings2 basePath="/tenant" />
   </Tenant2Sidebar>
 } />
 <Route exact path='/superadmincompanylayer' element={
   <Sa2Sidebar>
-    <CompanyLayer />
+    <Settings1 basePath="/superadmin" />
   </Sa2Sidebar>
 } />
 <Route exact path='/propertyownercompanylayer' element={
   <PropertyOwner2Sidebar>
-    <CompanyLayer />
+    <Settings1 basePath="/propertyowner" />
   </PropertyOwner2Sidebar>
 } />
-        <Route exact path='/dropdown' element={<DropdownPage />} />
+<Route exact path='/propertyowner/notification' element={
+  <PropertyOwner2Sidebar>
+    <NotificationLayer />
+  </PropertyOwner2Sidebar>
+} />
+
+<Route exact path='/tenant/notification-alert' element={
+  <Tenant2Sidebar>
+    <NotificationAlertLayer />
+  </Tenant2Sidebar>
+} />
+<Route exact path='/propertymanager/notification-alert' element={
+  <PropertyManager2Sidebar>
+    <NotificationAlertLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/superadmin/notification' element={
+  <Sa2Sidebar>
+    <NotificationLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/superadmin/payment-gateway' element={
+  <Sa2Sidebar>
+    <PaymentGatewayLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/tenant/payment-gateway' element={
+  <Tenant2Sidebar>
+    <PaymentGatewayLayer />
+  </Tenant2Sidebar>
+} />
+<Route exact path='/propertymanager/payment-gateway' element={
+  <PropertyManager2Sidebar>
+    <PaymentGatewayLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/propertyowner/payment-gateway' element={
+  <PropertyOwner2Sidebar>
+    <PaymentGatewayLayer />
+  </PropertyOwner2Sidebar>
+} />
+<Route exact path='/view-profile-superadmin' element={<Sa2Sidebar><ViewProfilewologo /></Sa2Sidebar>} />
+<Route exact path='/view-profile-tenant' element={<Tenant2Sidebar><ViewProfilewologo /></Tenant2Sidebar>} />
+<Route exact path='/view-profile-propertyowner' element={<PropertyOwner2Sidebar><ViewProfileLayer /></PropertyOwner2Sidebar>} />
+<Route exact path='/view-profile-propertymanager' element={<PropertyManager2Sidebar><ViewProfilewologo /></PropertyManager2Sidebar>} />
+        
         <Route exact path='/email' element={<EmailPage />} />
         <Route exact path='/faq' element={<FaqPage />} />
         <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
-        <Route exact path='/form-layout' element={<FormLayoutPage />} />
-        <Route exact path='/form-validation' element={<FormValidationPage />} />
-        <Route exact path='/form' element={<FormPage />} />
+        
+        
+        <Route exact path="/screening/form/:token" element={<TenantScreeningForm />} />
+<Route exact path='/tenant-screening' element={<TenantScreening />} />
+<Route exact path='/tenant-screening/list' element={<TenantScreeningList />} />
+<Route exact path='/tenant-screening/approve/:id' element={<TenantScreeningApprove />} />
 
-        <Route exact path='/gallery' element={<GalleryPage />} />
-        <Route exact path='/gallery-grid' element={<GalleryGridPage />} />
-        <Route exact path='/gallery-masonry' element={<GalleryMasonryPage />} />
-        <Route exact path='/gallery-hover' element={<GalleryHoverPage />} />
-
+    
         
        
 
-        <Route exact path='/testimonials' element={<TestimonialsPage />} />
-        <Route exact path='/coming-soon' element={<ComingSoonPage />} />
-        <Route exact path='/access-denied' element={<AccessDeniedPage />} />
+        
+    
+      
         <Route exact path='/maintenance' element={<MaintenancePage />} />
         
 
-        <Route exact path='/image-generator' element={<ImageGeneratorPage />} />
+        
         <Route exact path='/image-upload' element={<ImageUploadPage />} />
         <Route exact path='/invoice-add' element={<InvoiceAddPage />} />
         <Route exact path='/invoice-edit' element={<InvoiceEditPage />} />
         <Route exact path='/invoice-list' element={<InvoiceListPage />} />
         <Route path="/invoice-preview/:invoiceId" element={<InvoicePreviewPage />} />
+        <Route path="/prop-invoice/:invoiceId" element={<PropInvoice />} />
         <Route exact path='/kanban' element={<KanbanPage />} />
         <Route exact path='/languages' element={<LanguagePage />} />
         
-        <Route exact path='/list' element={<ListPage />} />
-        <Route
-          exact
-          path='/marketplace-details'
-          element={<MarketplaceDetailsPage />}
-        />
-        <Route exact path='/marketplace' element={<MarketplacePage />} />
+        
+       
+        
         <Route
           exact
           path='/notification-alert'
           element={<NotificationAlertPage />}
         />
-        <Route exact path='/notification' element={<NotificationPage />} />
-        <Route exact path='/pagination' element={<PaginationPage />} />
-        <Route exact path='/payment-gateway' element={<PaymentGatewayPage />} />
+        <Route exact path='/notification' element={
+          <Sa2Sidebar>
+            <NotificationLayer />
+          </Sa2Sidebar>
+        } />
+        
+        <Route exact path='/payment-gateway' element={
+          <Sa2Sidebar>
+            <PaymentGatewayLayer />
+          </Sa2Sidebar>
+        } />
+        
       
-        <Route exact path='/portfolio' element={<PortfolioPage />} />
-        <Route exact path='/pricing' element={<PricingPage />} />
-        <Route exact path='/progress' element={<ProgressPage />} />
+        
+        
+      
      
 
-        <Route path='/superadmin' element={<SuperAdminSidebar />}>
-        <Route index element={<SuperAdminCombinedDashboard />} />
-        </Route>
-        <Route path='/propertyowner' element={<PropertyOwnerSidebar />} >
-          <Route index element={<PropertyOwnerCombinedDashboard />} />
-        </Route>
-        <Route path='/tenant' element={<TenantSidebar />} >
-          <Route index element={<TenantCombinedDashboard />} />
-        </Route> 
-        <Route path='/propertymanager' element={<PropertyManagerSidebar />} >
-          <Route index element={<PropertyManagerCombinedDashboard />} />
-        </Route> 
-        <Route exact path='/role-access' element={<RoleAccessPage />} />
-        <Route exact path='/star-rating' element={<StarRatingPage />} />
-        <Route exact path='/starred' element={<StarredPage />} />
-        <Route exact path='/switch' element={<SwitchPage />} />
-        <Route exact path='/table-basic' element={<TableBasicPage />} />
-        <Route exact path='/table-data' element={<TableDataPage />} />
-        <Route exact path='/tabs' element={<TabsPage />} />
         
+        <Route exact path='/superadmin-calender-main' element={
+  <Sa2Sidebar>
+    <CalendarMainLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/propertyowner-calender-main' element={
+  <PropertyOwner2Sidebar>
+    <CalendarMainLayer />
+  </PropertyOwner2Sidebar>
+} />
+<Route exact path='/propertymanager-calendar-main' element={
+  <PropertyManager2Sidebar>
+    <CalendarMainLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/tenant-calendar-main' element={
+  <Tenant2Sidebar>
+    <CalendarMainLayer/>
+  </Tenant2Sidebar>
+}/>
+
+    
+    
+        
+        
+        
+        
+        
+        <Route path='/superadmin' element={<ErrorLayer />} ></Route>
+        <Route path='/propertyowner' element={<ErrorLayer />} ></Route>
+        <Route path='/tenant' element={<ErrorLayer />} ></Route> 
+        <Route path='/propertymanager' element={<ErrorLayer />} ></Route>
         <Route exact path='/terms-condition' element={<TermsConditionPage />} />
         
        
@@ -272,14 +359,18 @@ function App() {
         
         
         <Route exact path='/view-profile' element={<ViewProfilePage />} />
+        <Route exact path='/subscription-packages' element={<SubscriptionPackages />} />
+        <Route path="/subscription/success" element={<SubscriptionSuccess />} />
        
         
        
       
 
-        <Route exact path='*' element={<ErrorPage />} />
+        
+        <Route exact path='/subscription' element={<SubscriptionPage />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ProfileProvider>
   );
 }
 

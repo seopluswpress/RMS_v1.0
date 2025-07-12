@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import { FiX } from 'react-icons/fi';
 import { properties } from '../services/api';
+import axiosInstance from '../utils/axiosInstance';
 
 export default function LeaseForm({  unit, onClose, onLeaseAdded }) {
   const [formData, setFormData] = useState({
@@ -58,26 +59,60 @@ export default function LeaseForm({  unit, onClose, onLeaseAdded }) {
       return;
     }
 
-    const payload = {
-      tenant: parseInt(formData.tenant),
-      unit: parseInt(formData.unit),
-      lease_start: formData.lease_start,
-      lease_end: formData.lease_end,
-      due_date: parseInt(formData.due_date),
-      rent: parseFloat(formData.rent),
-      fine_amount: parseFloat(formData.fine_amount || 0),
-      increment_percent: parseInt(formData.increment_percent)
-    };
-
-    if (isNaN(payload.unit)) {
-      alert("Please select a unit.");
+    // Parse values with validation
+    const tenantId = parseInt(formData.tenant, 10);
+    const unitId = parseInt(formData.unit, 10);
+    const dueDate = parseInt(formData.due_date, 10);
+    const incrementPercent = parseInt(formData.increment_percent, 10);
+    
+    // Validate parsed values
+    if (isNaN(tenantId)) {
+      alert("Please select a valid tenant.");
       return;
     }
+    
+    if (isNaN(unitId)) {
+      alert("Please select a valid unit.");
+      return;
+    }
+
+    // Get current user ID for owner from user object in localStorage
+    const userObj = JSON.parse(localStorage.getItem("user"));
+    const userId = userObj?.user_id;
+
+    // Only send required lease fields. Backend will set created_by from authenticated user.
+    const payload = {
+      tenant: tenantId,
+      unit: unitId,
+      lease_start: formData.lease_start,
+      lease_end: formData.lease_end,
+      due_date: dueDate,
+      rent: parseFloat(formData.rent),
+      fine_amount: parseFloat(formData.fine_amount || 0),
+      increment_percent: incrementPercent,
+      created_by: userId,
+    };
+
+    
+    // Add debug logging
+    console.log("Tenant ID before parsing:", formData.tenant);
+    console.log("Tenant ID after parsing:", tenantId);
 
     console.log("Posting lease payload:", payload);
 
     try {
-      const response = await properties.createlease(payload);
+      // Explicitly set Authorization header with access token
+      const access = localStorage.getItem("access");
+      if (!access) {
+        alert("You must be logged in to add a lease. Please log in and try again.");
+        return;
+      }
+      const response = await axiosInstance.post('/properties/lease/', payload, {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+      
       console.log("Lease POST response:", response);
 
       if (response.status === 201 || response.data?.status === 1) {
@@ -141,9 +176,15 @@ export default function LeaseForm({  unit, onClose, onLeaseAdded }) {
                 className="form-control"
               >
                 <option value="">Select tenant</option>
-                {tenantList.map((t, idx) => (
-                  <option key={t.id || idx} value={t.id}>{t.tenant_name || t.email || t.id}</option>
-                ))}
+                {tenantList.map((t, idx) => {
+                  // Use user_id as the primary ID, fall back to id if needed
+                  const tenantId = t.user_id || t.id;
+                  return (
+                    <option key={tenantId || idx} value={tenantId}>
+                      {t.username || t.email || (`Tenant ${tenantId}`)}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
@@ -252,6 +293,12 @@ export default function LeaseForm({  unit, onClose, onLeaseAdded }) {
                 min="0"
                 step="0.01"
               />
+            </div>
+          </div>
+          <div className="col-12 mb-3">
+            <div className="alert alert-danger d-flex align-items-center" role="alert">
+              <Icon icon="mdi:information-outline" className="me-2" />
+              <small><strong>Important:</strong> After successful payment, an invoice will be automatically generated.</small>
             </div>
           </div>
           <div className="col-12 d-flex justify-content-end gap-2 pt-2">

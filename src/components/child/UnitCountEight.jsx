@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { properties } from "../../services/api";
+import axiosInstance from '../../utils/axiosInstance';
 
 const UnitCountEight = () => {
   const [paymentStats, setPaymentStats] = useState({
@@ -16,8 +16,20 @@ const UnitCountEight = () => {
     const fetchPaymentData = async () => {
       console.log('Starting to fetch invoice data...');
       try {
-        console.log('Calling properties.getinvoice(80)...');
-        const response = await properties.getinvoice(80);
+        // Get user from localStorage
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.user_id) {
+          console.error('No user found in localStorage');
+          return;
+        }
+        const access = localStorage.getItem('access');
+        console.log('Fetching invoices from https://hemanth525.pythonanywhere.com/properties/property/invoice/ ...');
+        const response = await axiosInstance.get('/properties/property/invoice/', {
+          headers: {
+            Authorization: `Bearer ${access}`,
+            'Content-Type': 'application/json',
+          },
+        });
         console.log('API Response:', response);
         
         if (!response || !response.data) {
@@ -25,23 +37,34 @@ const UnitCountEight = () => {
           return;
         }
         
-        const invoiceData = response.data;
-        console.log('Invoice Data:', invoiceData);
-        
-        // Calculate payment status based on the invoice data
-        const isPaid = invoiceData.status === 'paid';
-        const isOverdue = new Date(invoiceData.due_date) < new Date() && !isPaid;
-        const isPending = !isPaid && !isOverdue;
-        
+        const invoices = response?.data?.data || response?.data || [];
+        console.log('Invoice Data:', invoices);
+
+        // Sum unpaid and paid invoice amounts
+        let pendingPayments = 0;
+        let totalPayments = 0;
+        invoices.forEach(inv => {
+          if (String(inv.status).toLowerCase() === 'paid') {
+            totalPayments += Number(inv.amount) || 0;
+          } else {
+            pendingPayments += Number(inv.amount) || 0;
+          }
+        });
+
+        // Calculate percentages (optional, simple logic for now)
+        const total = pendingPayments + totalPayments;
+        const paidPercentage = total > 0 ? Math.round((totalPayments / total) * 100) : 0;
+        const pendingPercentage = total > 0 ? Math.round((pendingPayments / total) * 100) : 0;
+
         const updatedStats = {
-          pendingPayments: isPending || isOverdue ? invoiceData.amount : 0,
-          totalPayments: isPaid ? invoiceData.amount : 0,
-          pendingPercentage: isPending || isOverdue ? 100 : 0,
-          paidPercentage: isPaid ? 100 : 0,
-          lastMonthPending: 0,
+          pendingPayments,
+          totalPayments,
+          pendingPercentage,
+          paidPercentage,
+          lastMonthPending: 0, // You can fill this if you have last month's data
           lastMonthPaid: 0
         };
-        
+
         console.log('Updating payment stats:', updatedStats);
         setPaymentStats(updatedStats);
         
@@ -72,8 +95,8 @@ const UnitCountEight = () => {
   };
   return (
     <div className='row gy-4'>
-      <div className='col-xxl-6 col-sm-6'>
-        <div className='card p-3 shadow-2 radius-8 h-100 gradient-deep-two-1 border border-white'>
+      <div className='col-xxl-5 col-lg-6 col-md-12' style={{paddingTop: '1rem',paddingBottom: '1rem',paddingLeft: '1rem',paddingRight: '1rem'}}>
+        <div className='card p-3 ps-3 pt-3 pb-3 shadow-2 radius-8 h-100 gradient-deep-two-1 border border-white'>
           <div className='card-body p-0'>
             <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
               <div className='d-flex align-items-center gap-10'>
@@ -88,18 +111,12 @@ const UnitCountEight = () => {
                 </div>
               </div>
             </div>
-            <p className='text-sm mb-0 d-flex align-items-center flex-wrap gap-12 mt-12 text-secondary-light'>
-              <span className={`${paymentStats.pendingPercentage >= 0 ? 'bg-danger-focus text-danger-main' : 'bg-success-focus text-success-main'} px-6 py-2 rounded-2 fw-medium text-sm d-flex align-items-center gap-1`}>
-                <i className={`ri-arrow-${paymentStats.pendingPercentage >= 0 ? 'up' : 'down'}-line`} /> 
-                {Math.abs(paymentStats.pendingPercentage)}%
-              </span>{" "}
-              Last month {formatCurrency(paymentStats.lastMonthPending)}
-            </p>
+            
           </div>
         </div>
       </div>
-      <div className='col-xxl-6 col-sm-6'>
-        <div className='card p-3 shadow-2 radius-8 h-100 gradient-deep-two-3 border border-white'>
+      <div className='col-xxl-5 col-lg-6 col-md-12' style={{paddingTop: '1rem',paddingBottom: '1rem',paddingLeft: '1rem',paddingRight: '1rem'}}>
+        <div className='card p-3 pe-3 pt-3 pb-3 shadow-2 radius-8 h-100 gradient-deep-two-3 border border-white'>
           <div className='card-body p-0'>
             <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
               <div className='d-flex align-items-center gap-10'>
@@ -114,13 +131,7 @@ const UnitCountEight = () => {
                 </div>
               </div>
             </div>
-            <p className='text-sm mb-0 d-flex align-items-center flex-wrap gap-12 mt-12 text-secondary-light'>
-              <span className={`${paymentStats.paidPercentage >= 0 ? 'bg-success-focus text-success-main' : 'bg-danger-focus text-danger-main'} px-6 py-2 rounded-2 fw-medium text-sm d-flex align-items-center gap-1`}>
-                <i className={`ri-arrow-${paymentStats.paidPercentage >= 0 ? 'up' : 'down'}-line`} /> 
-                {Math.abs(paymentStats.paidPercentage)}%
-              </span>{" "}
-              Last month {formatCurrency(paymentStats.lastMonthPaid)}
-            </p>
+            
           </div>
         </div>
       </div>
