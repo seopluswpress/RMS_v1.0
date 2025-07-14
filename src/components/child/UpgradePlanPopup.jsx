@@ -5,7 +5,7 @@ const UpgradePlanPopup = ({ status, daysLeft, planDetails, onClose }) => {
   const navigate = useNavigate();
   return (
     <div className="upgrade-plan-popup-overlay">
-      <div className='trail-bg h-100 text-center d-flex flex-column justify-content-between align-items-center p-16 radius-8 upgrade-plan-popup-card'>
+      <div className='trail-bg text-center d-flex flex-column justify-content-between align-items-center p-16 radius-8 upgrade-plan-popup-card'>
         <button className="close-btn align-self-end mb-2" onClick={onClose}>
           &times;
         </button>
@@ -62,6 +62,8 @@ const UpgradePlanPopup = ({ status, daysLeft, planDetails, onClose }) => {
         .upgrade-plan-popup-card {
           min-width: 350px;
           max-width: 90vw;
+          max-height: 400px;
+          overflow-y: auto;
           position: relative;
         }
         .upgrade-plan-popup-card .close-btn {
