@@ -1,0 +1,12 @@
+.invoice-action-btn {
+  background-color: #30314f;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.invoice-action-btn:hover, 
+.invoice-action-btn:focus, 
+.invoice-action-btn:active {
+  background-color: #d1b480 !important;
+  color: white;
+}

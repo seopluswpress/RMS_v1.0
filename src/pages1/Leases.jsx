@@ -1,7 +1,9 @@
 // Updated version of Leases.jsx with fallback to API property_name and unit_name
 import React, { useState, useEffect } from 'react';
 import { FiPlus, FiEdit, FiTrash2, FiFileText, FiHome, FiUser, FiX, FiSearch, FiCheckCircle, FiArchive, FiFilter } from 'react-icons/fi';
+import styles from './Leases.module.css';
 import { properties } from '../services/api';
+import axiosInstance from '../utils/axiosInstance';
 import LeaseForm from '../Forms/LeaseForm';
 
 // Helper function to fetch tenant details by ID
@@ -23,6 +25,8 @@ const fetchTenantDetails = async (tenantId, tenantsList) => {
 };
 
 export default function Leases() {
+  // Retrieve access token from localStorage
+  const access = localStorage.getItem('access');
   const [leases, setLeases] = useState([]);
   const [inactiveLeases, setInactiveLeases] = useState([]);
   const [propertiesList, setPropertiesList] = useState([]);
@@ -36,7 +40,7 @@ export default function Leases() {
   const [isFetching, setIsFetching] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
+  // Search bar is always visible, no need for showSearch state
   const [showFilters, setShowFilters] = useState(false);
   const [filteredLeases, setFilteredLeases] = useState([]);
   const [activeTab, setActiveTab] = useState('active');
@@ -114,10 +118,12 @@ export default function Leases() {
   const fetchLeases = async (isInactive = false) => {
     try {
       // Use the appropriate API endpoint based on whether we're fetching active or inactive leases
-      const response = isInactive 
-        ? await properties.getinactivelease() 
-        : await properties.getleases();
-        
+      const endpoint = isInactive ? 'properties/lease/inactive/' : 'properties/lease/';
+      const response = await axiosInstance.get(endpoint, {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
       if (!response?.data) throw new Error('No data received from server');
 
       let leasesData = [];
@@ -125,21 +131,16 @@ export default function Leases() {
         leasesData = response.data;
       } else if (response.data?.data && Array.isArray(response.data.data)) {
         leasesData = response.data.data;
-      } else if (response.data?.status === 1 && Array.isArray(response.data.data)) {
-        leasesData = response.data.data;
       } else {
         throw new Error('Invalid data format received');
       }
       
       // Backend should already filter correctly, but we'll double-check here
       if (isInactive) {
-        // For inactive tab, only show leases with inactive=true
         leasesData = leasesData.filter(lease => lease.inactive === true);
       } else {
-        // For active tab, only show leases with active=true
         leasesData = leasesData.filter(lease => lease.active === true);
       }
-
       return leasesData;
     } catch (err) {
       console.error(`Error fetching ${isInactive ? 'inactive' : 'active'} leases:`, err);
@@ -151,9 +152,9 @@ export default function Leases() {
     try {
       setLoading(true);
       const [propertiesRes, tenantsRes, unitsRes] = await Promise.all([
-        properties.getProperties(),
-        properties.gettenants(),
-        properties.getUnits()
+        axiosInstance.get('/properties/property_list/', { headers: { Authorization: `Bearer ${access}` } }),
+        axiosInstance.get('user/tenant/', { headers: { Authorization: `Bearer ${access}` } }),
+        axiosInstance.get('properties/unit/', { headers: { Authorization: `Bearer ${access}` } })
       ]);
 
       const processedProperties = Array.isArray(propertiesRes?.data?.data) ? propertiesRes.data.data : 
@@ -199,9 +200,9 @@ export default function Leases() {
         return;
       }
 
-      const unitsResponse = await properties.getUnits();
+      const unitsResponse = await axiosInstance.get('properties/unit/', { headers: { Authorization: `Bearer ${access}` } });
       const unitsData = Array.isArray(unitsResponse?.data) ? unitsResponse.data : [];
-      const propertiesResponse = await properties.getProperties();
+      const propertiesResponse = await axiosInstance.get('properties/property_list/', { headers: { Authorization: `Bearer ${access}` } });
       const propertiesData = Array.isArray(propertiesResponse?.data) ? propertiesResponse.data : [];
 
       // Process active leases
@@ -399,24 +400,21 @@ export default function Leases() {
     setSearchTerm(e.target.value);
   };
   
-  const toggleSearch = () => {
-    const newShowSearch = !showSearch;
-    setShowSearch(newShowSearch);
-    if (!newShowSearch) {
-      setSearchTerm('');
-    }
-    // Hide filters when showing search
-    if (newShowSearch) {
-      setShowFilters(false);
-    }
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+  
+  // Hide filters when showing search
+  const showSearchFilters = () => {
+    setShowFilters(false);
   };
   
   const toggleFilters = () => {
     const newShowFilters = !showFilters;
     setShowFilters(newShowFilters);
-    // Hide search when showing filters
+    // If showing filters, clear the search term
     if (newShowFilters) {
-      setShowSearch(false);
+      setSearchTerm('');
     }
   };
   
@@ -441,66 +439,68 @@ export default function Leases() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col space-y-4">
-        <div className="flex items-center justify-between">
-          
-          <div className="btn-group" role="group" aria-label="Lease Tabs">
-  <button
-    onClick={() => setActiveTab('active')}
-    className={`btn ${activeTab === 'active' ? 'btn-success text-white' : 'btn-outline-secondary'} d-flex align-items-center`}
-    type="button"
-  >
-    <FiCheckCircle className="me-2" />
-    Active Leases
-  </button>
-  <button
-    onClick={() => setActiveTab('inactive')}
-    className={`btn ${activeTab === 'inactive' ? 'btn-danger text-white' : 'btn-outline-secondary'} d-flex align-items-center`}
-    type="button"
-  >
-    <FiArchive className="me-2" />
-    Inactive Leases
-  </button>
-</div>
-          <div className="flex items-center space-x-2">
-            <button 
-              onClick={toggleSearch}
-              className="btn btn-link text-secondary p-2"
-              aria-label="Search"
-              title="Search Leases"
-              type="button"
-            >
-              {showSearch ? <FiX className="h-5 w-5" /> : <FiSearch className="h-5 w-5" />}
-            </button>
-            <button 
-              onClick={toggleFilters}
-              className="btn btn-link text-secondary p-2 position-relative"
-              aria-label="Filter"
-              title="Filter Leases"
-              type="button"
-            >
-              {showFilters ? <FiX className="h-5 w-5" /> : <FiFilter className="h-5 w-5" />}
-              {Object.values(filters).some(val => val !== '') && 
-                <span className="position-absolute top-0 end-0 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
-              }
-            </button>
-          </div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="btn-group" role="group" aria-label="Lease Tabs">
+          <button
+            onClick={() => setActiveTab('active')}
+            className={`btn d-flex align-items-center py-2 ${activeTab === 'active' ? 'btn-success text-white' : 'btn-outline-secondary'} ${styles.leaseTabBtn}`}
+            style={activeTab === 'active' ? { backgroundColor: '#198754', borderColor: '#198754' } : { paddingLeft: '1rem' }}
+            type="button"
+          >
+            <FiCheckCircle className="me-2" />
+            Active Leases 
+          </button>
+          <button
+            onClick={() => setActiveTab('inactive')}
+            className={`btn d-flex align-items-center py-2 ${activeTab === 'inactive' ? 'btn-danger text-white' : 'btn-outline-secondary'} ${styles.leaseTabBtn}`}
+            style={activeTab === 'inactive' ? { backgroundColor: '#dc3545', borderColor: '#dc3545' } : {}}
+            type="button"
+          >
+            <FiArchive className="me-2" />
+            Inactive Leases
+          </button>
         </div>
-        {showSearch && (
-          <div className="relative max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiSearch className="h-5 w-5 text-gray-400" />
-            </div>
+        <div className="d-flex align-items-center">
+          <FiSearch className="text-secondary me-2" />
+          <div className="position-relative me-2">
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearchChange}
               placeholder="Search leases..."
-              className="block w-full pl-10 pr-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              autoFocus
+              className="form-control py-2"
+              style={{ minWidth: '200px' }}
             />
+            {searchTerm && (
+              <button
+                onClick={clearSearch}
+                className="btn btn-sm position-absolute top-50 end-0 translate-middle-y pe-3"
+                style={{ background: 'none', border: 'none' }}
+              >
+                <FiX className="text-secondary" />
+              </button>
+            )}
           </div>
-        )}
+          <button 
+  onClick={toggleFilters}
+  className="btn btn-link text-secondary p-2 ps-3 pe-5 me-3 position-relative"
+  aria-label="Filter"
+  title="Filter Leases"
+  type="button"
+>
+  {showFilters ? <FiX /> : <FiFilter />}
+  {Object.values(filters).some(val => val !== '') && 
+    <span className="position-absolute top-0 end-0 translate-middle p-1 bg-primary border border-light rounded-circle"></span>
+  }
+</button>
+
+
+
+        </div>
+      </div>
+      
+      <div className="d-flex flex-column mb-4">
+        {/* Search bar is now always visible in the top right corner */}
         
         {showFilters && (
   <div className="bg-light p-4 rounded border mb-4">
@@ -594,10 +594,10 @@ export default function Leases() {
 )}
       </div>
   
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-danger">{error}</p>}
       {activeTab === 'active' ? (
         <div className="bg-success text-white px-4 py-2 rounded-top fw-medium d-flex align-items-center">
-          <FiCheckCircle className="me-2" /> Active Leases
+          <FiCheckCircle className="me-2" /> Active Leases 
         </div>
       ) : (
         <div className="bg-danger text-white px-4 py-2 rounded-top fw-medium d-flex align-items-center">
@@ -606,7 +606,7 @@ export default function Leases() {
       )}
       
       {loading ? (
-        <p className="text-gray-300">Loading leases...</p>
+        <p className="text-secondary">Loading leases...</p>
       ) : (
         <div className="card mt-4">
         
@@ -729,11 +729,11 @@ export default function Leases() {
                 setRefreshKey(prev => prev + 1);
                 setShowModal(false);
                 setEditingLease(null);
-              }}x
+              }}
+            />
           </div>
         </div>
       )}
     </div>
   );
-  
-}  
+}

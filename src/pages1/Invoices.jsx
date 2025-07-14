@@ -1,17 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import axiosInstance from '../utils/axiosInstance';
 import { 
   FiDollarSign, 
-  FiEdit2, 
-  FiTrash2, 
   FiLoader, 
   FiPlus, 
   FiSearch,
-  FiFileText,
-  FiX,
-  FiFilter,
-  FiChevronDown
 } from 'react-icons/fi';
 import { properties } from '../services/api';
 import InvoiceForm from '../Forms/InvoiceForm';
@@ -37,9 +32,16 @@ export default function Invoices() {
   const fetchInvoices = async () => {
     try {
       setLoading(true);
-      const response = await properties.getinvoices();
+      const access = localStorage.getItem('access');
+  
+      const response = await axiosInstance.get('/properties/property/invoice/', {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+  
       const invoicesData = response?.data?.data || response?.data || [];
-     
+  
       if (Array.isArray(invoicesData)) {
         setInvoices(invoicesData);
         console.log('Invoices data refreshed:', invoicesData.length, 'invoices');
@@ -54,6 +56,7 @@ export default function Invoices() {
       setLoading(false);
     }
   };
+  
  
   // Check for payment completion when component mounts or becomes visible
   useEffect(() => {
@@ -281,13 +284,6 @@ export default function Invoices() {
             <option value="unpaid">Unpaid</option>
           </select>
           <div className="d-flex flex-wrap align-items-center gap-3">
-          <button
-            onClick={() => setShowCreateForm(true)}
-            className="btn btn-sm btn-primary-600 d-flex align-items-center gap-1 px-3 py-1"
-          >
-            <FiPlus className="h-4 w-4" />
-            <span>Create Invoice</span>
-          </button>
           
         </div>
         </div>
@@ -411,14 +407,7 @@ export default function Invoices() {
             </p>
             {!searchTerm && (
               <div className="mt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowCreateForm(true)}
-                  className="btn btn-primary d-inline-flex align-items-center px-4 py-2"
-                >
-                  <FiPlus className="-ml-1 mr-2 h-5 w-5" />
-                  New Invoice
-                </button>
+                
               </div>
             )}
           </div>
@@ -504,14 +493,45 @@ export default function Invoices() {
 </td>
 
                   <td>
-                    <Link 
-                      to={`/invoice-preview/${invoice.invoice_id}`}
-                      className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center border-0"
-                      title="View Invoice"
-                      style={{outline: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      <Icon icon="iconamoon:eye-light" width={18} height={18} />
-                    </Link>
+                    {/* Role-based invoice view link */}
+{(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userRole = user?.type || user?.role || user?.user_type;
+  if (userRole === 'property_owner') {
+    return (
+      <Link
+        to={`/prop-invoice/${invoice.invoice_id}`}
+        className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center border-0"
+        title="View Invoice"
+        style={{outline: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Icon icon="iconamoon:eye-light" width={18} height={18} />
+      </Link>
+    );
+  } else if (userRole === 'tenant') {
+    return (
+      <Link
+        to={`/invoice-preview/${invoice.invoice_id}`}
+        className="w-32-px h-32-px me-8 bg-primary-light text-primary-600 rounded-circle d-inline-flex align-items-center justify-content-center border-0"
+        title="View Invoice"
+        style={{outline: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Icon icon="iconamoon:eye-light" width={18} height={18} />
+      </Link>
+    );
+  } else {
+    return (
+      <button
+        className="w-32-px h-32-px me-8 bg-secondary text-secondary-main rounded-circle d-inline-flex align-items-center justify-content-center border-0"
+        title="View Invoice"
+        disabled
+        style={{outline: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Icon icon="iconamoon:eye-light" width={18} height={18} />
+      </button>
+    );
+  }
+})()}
                     <button
                       className="w-32-px h-32-px me-8 bg-success-focus text-success-main rounded-circle d-inline-flex align-items-center justify-content-center border-0"
                       title="Edit Invoice"

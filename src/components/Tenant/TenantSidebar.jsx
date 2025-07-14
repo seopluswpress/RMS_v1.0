@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { useProfile } from '../../context/ProfileContext';
+
 import { Link, NavLink, useLocation } from "react-router-dom";
 import ThemeToggleButton from "../../helper/ThemeToggleButton";
 import TenantCombinedDashboard from "./TenantCombinedDashboard";
+import '../../dashboard.css';
+import LogoutButton from "../LogoutButton";
+import '../../custom.css';
 
 const TenantSidebar = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation(); // Hook to get the current route
+  const { profileImage } = useProfile();
 
   useEffect(() => {
     const handleDropdownClick = (event) => {
@@ -108,17 +114,17 @@ const TenantSidebar = ({ children }) => {
         <div>
           <Link to='/' className='sidebar-logo'>
             <img
-              src='assets/images/logo.png'
+              src='/assets/images/logo.png'
               alt='site logo'
               className='light-logo'
             />
             <img
-              src='assets/images/logo-light.png'
+              src='/assets/images/logo-light.png'
               alt='site logo'
               className='dark-logo'
             />
             <img
-              src='assets/images/logo-icon.png'
+              src='/assets/images/logo-icon.png'
               alt='site logo'
               className='logo-icon'
             />
@@ -127,13 +133,13 @@ const TenantSidebar = ({ children }) => {
         <div className='sidebar-menu-area'>
           <ul className='sidebar-menu' id='sidebar-menu'>
             <li>
-              <Link to='/tenant-dashboard' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
+              <NavLink to='/dashboard' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='solar:home-smile-angle-outline'
                   className='menu-icon'
                 />
                 <span>Dashboard</span>
-              </Link>
+              </NavLink>
               
             </li>
 
@@ -158,7 +164,7 @@ const TenantSidebar = ({ children }) => {
             </li>*/}
             <li>
               <NavLink
-                to='/calendar-main'
+                to='/tenant-calendar-main'
                 className={(navData) => (navData.isActive ? "active-page" : "")}
               >
                 <Icon icon='solar:calendar-outline' className='menu-icon' />
@@ -169,48 +175,49 @@ const TenantSidebar = ({ children }) => {
 
             {/* Invoice Dropdown */}
             <li>
-                          <Link to='/invoice-list-tenant'>
+                          <NavLink to='/invoice-list-tenant' className={(navData) => (navData.isActive ? "active-page" : "")}>
                             <Icon icon='hugeicons:invoice-03' className='menu-icon' />
                             <span>Invoice</span>
-                          </Link>
+                          </NavLink>
                           
                         </li>
             
          
                <li>
-                          <Link to='/MaintenancePageTenant'>
+                          <NavLink to='/MaintenancePageTenant' className={(navData) => (navData.isActive ? "active-page" : "")}>
                             <Icon icon='mdi:wrench-outline' className='menu-icon' />
                             <span>maintainace request</span>
-                          </Link>
+                          </NavLink>
                           
                         </li>
                         {/*Payment Dropdown*/}
                         <li>
-                          <Link to='/payment-list-tenant' onClick={() => { if (mobileMenu) setMobileMenu(false); }}>
+                          <NavLink to='/payment-list-tenant' className={(navData) => (navData.isActive ? "active-page" : "")}>
                             <Icon icon='mdi:cash' className='menu-icon' />
                             <span>Payment</span>
-                          </Link>
+                          </NavLink>
                         </li>
             {/* Settings Dropdown */}
             <li >
-              <Link to='/tenantcompanylayer'>
+              <NavLink to='/tenantcompanylayer' className={(navData) => (navData.isActive ? "active-page" : "")}>
                 <Icon
                   icon='icon-park-outline:setting-two'
                   className='menu-icon'
                 />
                 <span>Settings</span>
-              </Link>
+              </NavLink>
               
          
              
             
             </li>
           </ul>
+          <LogoutButton />
         </div>
       </aside>
 
       <main
-        className={sidebarActive ? "dashboard-main active" : "dashboard-main"}
+        className={sidebarActive ? "dashboard-main active sidebar-layout" : "dashboard-main sidebar-layout"}
       >
         <div className='navbar-header'>
           <div className='row align-items-center justify-content-between'>
@@ -249,7 +256,7 @@ const TenantSidebar = ({ children }) => {
             <div className='col-auto'>
               <div className='d-flex flex-wrap align-items-center gap-3'>
                 {/* ThemeToggleButton */}
-                <ThemeToggleButton />
+                {/*<ThemeToggleButton />*/}
                 <div className='dropdown d-none d-sm-inline-block'>
                   <button
                     className='has-indicator w-40-px h-40-px bg-neutral-200 rounded-circle d-flex justify-content-center align-items-center'
@@ -801,7 +808,7 @@ const TenantSidebar = ({ children }) => {
                     data-bs-toggle='dropdown'
                   >
                     <img
-                      src='assets/images/user.png'
+                      src='/assets/images/user.png'
                       alt='image_user'
                       className='w-40-px h-40-px object-fit-cover rounded-circle'
                     />
@@ -809,12 +816,21 @@ const TenantSidebar = ({ children }) => {
                   <div className='dropdown-menu to-top dropdown-menu-sm'>
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
-                        <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          Shaidul Islam
-                        </h6>
-                        <span className='text-secondary-light fw-medium text-sm'>
-                          Admin
-                        </span>
+                        {(() => {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch (e) {}
+  const username = user?.username || 'User';
+  const userType = user?.type ? user.type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'User Type';
+  return (
+    <>
+      <h6 className='text-lg text-primary-light fw-semibold mb-2'>{username}</h6>
+      <span className='text-secondary-light fw-medium text-sm'>{userType}</span>
+    </>
+  );
+})()}
+
                       </div>
                       <button type='button' className='hover-text-danger'>
                         <Icon
@@ -827,7 +843,7 @@ const TenantSidebar = ({ children }) => {
                       <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
-                          to='/view-profile'
+                          to='/view-profile-tenant'
                         >
                           <Icon
                             icon='solar:user-linear'
@@ -837,7 +853,7 @@ const TenantSidebar = ({ children }) => {
                         </Link>
                       </li>
                       <li>
-                        <Link
+                        {/*<Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                           to='/email'
                         >
@@ -846,10 +862,10 @@ const TenantSidebar = ({ children }) => {
                             className='icon text-xl'
                           />{" "}
                           Inbox
-                        </Link>
+                        </Link>*/}
                       </li>
                       <li>
-                        <Link
+                        {/*<Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                           to='/company'
                         >
@@ -858,16 +874,10 @@ const TenantSidebar = ({ children }) => {
                             className='icon text-xl'
                           />
                           Setting
-                        </Link>
+                        </Link>*/}
                       </li>
                       <li>
-                        <Link
-                          className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'
-                          to='#'
-                        >
-                          <Icon icon='lucide:power' className='icon text-xl' />{" "}
-                          Log Out
-                        </Link>
+                        <LogoutButton />
                       </li>
                     </ul>
                   </div>
@@ -878,15 +888,18 @@ const TenantSidebar = ({ children }) => {
           </div>
         </div>
 
+        
         {/* dashboard-main-body */}
-        <div className='dashboard-main-body'>{children}</div>
+        <div className='dashboard-main-body'>
+          <TenantCombinedDashboard />
+          {children}
+        </div>
 
         {/* Footer section */}
         <footer className='d-footer'>
-          <TenantCombinedDashboard />
           <div className='row align-items-center justify-content-between'>
             <div className='col-auto'>
-              <p className='mb-0'>© 2025 Rental Management System. All Rights Reserved.</p>
+              <p className='mb-0'>© 2025 RMS. All Rights Reserved.</p>
             </div>
            
           </div>

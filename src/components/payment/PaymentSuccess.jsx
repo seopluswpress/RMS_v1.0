@@ -18,7 +18,7 @@ export default function PaymentSuccess() {
 
       try {
         const response = await axios.patch(
-          `/properties/property/invoice/${invoiceId}/`,
+          `/properties/property/invoice_post/${invoiceId}/`,
           { status: "paid" },
           {
             headers: {

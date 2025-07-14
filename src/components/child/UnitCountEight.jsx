@@ -72,8 +72,8 @@ const UnitCountEight = () => {
   };
   return (
     <div className='row gy-4'>
-      <div className='col-xxl-6 col-sm-6'>
-        <div className='card p-3 shadow-2 radius-8 h-100 gradient-deep-two-1 border border-white'>
+      <div className='col-xxl-5 col-lg-6 col-md-12' style={{paddingTop: '1rem',paddingBottom: '1rem',paddingLeft: '1rem',paddingRight: '1rem'}}>
+        <div className='card p-3 ps-3 pt-3 pb-3 shadow-2 radius-8 h-100 gradient-deep-two-1 border border-white'>
           <div className='card-body p-0'>
             <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
               <div className='d-flex align-items-center gap-10'>
@@ -98,8 +98,8 @@ const UnitCountEight = () => {
           </div>
         </div>
       </div>
-      <div className='col-xxl-6 col-sm-6'>
-        <div className='card p-3 shadow-2 radius-8 h-100 gradient-deep-two-3 border border-white'>
+      <div className='col-xxl-5 col-lg-6 col-md-12' style={{paddingTop: '1rem',paddingBottom: '1rem',paddingLeft: '1rem',paddingRight: '1rem'}}>
+        <div className='card p-3 pe-3 pt-3 pb-3 shadow-2 radius-8 h-100 gradient-deep-two-3 border border-white'>
           <div className='card-body p-0'>
             <div className='d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8'>
               <div className='d-flex align-items-center gap-10'>

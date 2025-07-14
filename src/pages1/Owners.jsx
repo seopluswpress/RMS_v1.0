@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FiPlus, FiEdit, FiTrash2, FiSearch, FiUsers } from 'react-icons/fi';
-import { Icon } from '@iconify/react';
+import { FiSearch, FiUsers } from 'react-icons/fi';
 import { properties } from '../services/api';  // Adjust path if needed
 
 const Owner = () => {

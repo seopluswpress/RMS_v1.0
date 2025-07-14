@@ -2,13 +2,40 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React from 'react'
 import useReactApexChart from '../../hook/useReactApexChart'
 
+import { useEffect, useState } from 'react';
+
 const UnitCountTwo = () => {
-    let { createChart } = useReactApexChart()
+    let { createChart } = useReactApexChart();
+    const [propertyCount, setPropertyCount] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProperties = async () => {
+            setLoading(true);
+            try {
+                const token = localStorage.getItem('access');
+                const res = await fetch('https://hemanth525.pythonanywhere.com/properties/property_list/', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const json = await res.json();
+                // Assuming the API returns a list of properties
+                setPropertyCount(Array.isArray(json) ? json.length : (json.count ?? 0));
+            } catch (err) {
+                setPropertyCount(0);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProperties();
+    }, []);
 
     return (
-        <div className="container-fluid px-0">
+        <div className="container-fluid px-0" style={{paddingTop:'1rem'}}>
             <div className="row g-4 mb-4">
-                <div className="col-12 col-md-6 d-flex">
+                <div className="col-12 col-md-6 d-flex" style={{paddingLeft:'1rem'}}>
                     <div className="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-1 flex-grow-1">
                         <div className="card-body p-0">
                             <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
@@ -22,9 +49,9 @@ const UnitCountTwo = () => {
                                     </span>
                                     <div>
                                         <span className="mb-2 fw-medium text-secondary-light text-sm">
-                                            Total Owners
+                                            Total Properties
                                         </span>
-                                        <h6 className="fw-semibold">10</h6>
+                                        <h6 className="fw-semibold">{loading ? 'Loading...' : propertyCount}</h6>
                                     </div>
                                 </div>
                                 <div
@@ -45,7 +72,7 @@ const UnitCountTwo = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-6 d-flex">
+                <div className="col-12 col-md-6 d-flex" style={{paddingRight:'1rem'}}>
                     <div className="card p-3 shadow-2 radius-8 border input-form-light h-100 bg-gradient-end-2 flex-grow-1">
                         <div className="card-body p-0">
                             <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 mb-8">
@@ -60,7 +87,7 @@ const UnitCountTwo = () => {
                                         <span className="mb-2 fw-medium text-secondary-light text-sm">
                                            Total Expense
                                         </span>
-                                        <h6 className="fw-semibold">5</h6>
+                                        <h6 className="fw-semibold">0</h6>
                                     </div>
                                 </div>
                                 <div

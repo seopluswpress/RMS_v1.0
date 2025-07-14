@@ -1,11 +1,17 @@
+import React from 'react';
+import { ProfileProvider } from './context/ProfileContext';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MaintenancePage from "./pages/MaintenancePageTenant";
 
 
 import EmailPage from "./pages/EmailPage";
-
-
+import ViewProfilewologo from "./components/ViewProfilewologo";
+import SubscriptionSuccess from "./pages/SubscriptionSuccess";
+import TenantScreening from "./pages1/TenantScreening";
+import TenantScreeningForm from "./pages1/TenantScreeningForm";
+import TenantScreeningApprove from "./pages1/TenantScreeningApprove";
+import TenantScreeningList from "./pages1/TenantScreeningList";
 
 
 
@@ -37,6 +43,7 @@ import InvoiceListPage from "./pages/InvoiceListPage";
 import InvoicePreviewPage from "./pages/InvoicePreviewPage";
 import KanbanPage from "./pages/KanbanPage";
 import LanguagePage from "./pages/LanguagePage";
+import SubscriptionPage from "./pages/SubscriptionPage";
 import SignUp from './pages1/SignUp';
 
 
@@ -54,7 +61,7 @@ import CheckoutForm from './components/payment/CheckoutForm'
 import Payments1 from "./pages1/Payments1";
 
 
-import SignIn from './pages1/SignIn';
+
 
 
 
@@ -70,15 +77,18 @@ import OwnersListPage from "./pages/OwnersListPage";
 import ViewDetailsPage from "./pages/ViewDetailsPage";
 
 import ViewProfilePage from "./pages/ViewProfilePage";
+import ViewProfileLayer from "./components/ViewProfileLayer";
 
 
 import RouteScrollToTop from "./helper/RouteScrollToTop";
-
+import PropInvoice from "./components/PropertyOwner/PropInvoice";
 
 import PaymentPage from "./components/payment/PaymentPage";
 
 
-import TestimonialsPage from "./pages/TestimonialsPage";
+
+import Settings1 from "./components/Settings1";
+import PaymentGatewayLayer from "./components/PaymentGatewayLayer";
 
 
 import PropertyOwnerSidebar from "./components/PropertyOwner/PropertyOwnerSidebar";
@@ -106,17 +116,37 @@ import Tenant2Sidebar from "./components/Tenant/Tenant2Sidebar";
 import Sa2Sidebar from "./components/Superadmin/Sa2Sidebar";
 import PropertyOwner2Sidebar from "./components/PropertyOwner/PropertyOwner2Sidebar";
 import PaymentsTenants from "./pages/PaymentsTenants";
+import CalendarMainLayer from "./components/CalendarMainLayer";
+import SubscriptionPackages from "./pages/SubscriptionPackages";
+import NotificationLayer from "./components/NotificationLayer";
+import NotificationAlertLayer from "./components/NotificationAlertLayer";
+import Settings2 from "./components/Settings2";
+import UserDashboardRouter from "./pages1/UserDashboardRouter";
+import { Navigate } from "react-router-dom";
+import LoginPage from "./pages1/LoginPage";
+import ErrorLayer from './components/ErrorLayer';
+import CalendarMainPage from "./pages/CalendarMainPage";
+
+
+
+
 function App() {
+  const PrivateRoute = ({ children }) => {
+    const isLoggedIn = !!localStorage.getItem("access");
+    return isLoggedIn ? children : <Navigate to="/" />;
+  };
   return (
-    <BrowserRouter>
-      <RouteScrollToTop />
-      <Routes>
+    <ProfileProvider>
+      <BrowserRouter>
+        <RouteScrollToTop />
+        <Routes>
+      <Route exact path='/' element={<LoginPage />} />
         <Route exact path='/signup' element={<SignUp />} />
-        <Route exact path='/signin' element={<SignIn />} />
-        <Route exact path='/tenant-dashboard' element={<TenantSidebar />} />
-        <Route exact path='/super-admin-dashboard' element={<SuperAdminSidebar><SuperAdminCombinedDashboard /></SuperAdminSidebar>} />
-        <Route exact path='/propertyowner-dashboard' element={<PropertyOwnerSidebar />} />
-        <Route exact path='/propertymanager-dashboard' element={<PropertyManagerSidebar />} />
+        
+        
+        
+        
+        
 
         <Route exact path='/MaintenancePageTenant' element={<MaintenancePageTenant />} />
         <Route exact path='/lease-list' element={<LeasePropertyOwner />} />
@@ -128,6 +158,7 @@ function App() {
         <Route exact path='/property-manager-list' element={<PropertyManagerList />} />
         <Route exact path='/property-list-property-manager' element={<PropertyListPropertyManager />} />
         <Route exact path='/payment-list-tenant' element={<PaymentsTenants />} />
+
       
        
 
@@ -137,8 +168,10 @@ function App() {
     
        
         
-    
+        <Route path="/dashboard" element={<PrivateRoute><UserDashboardRouter /></PrivateRoute>} />
         <Route exact path='/payments1' element={<Payments1/>} />
+        <Route exact path='/calendar-main' element={<CalendarMainPage />} />
+
         <Route exact path='/owners-list' element={<OwnersListPage/>} />
     
         
@@ -155,37 +188,85 @@ function App() {
         
         <Route exact path='/propertymanagercompanylayer' element={
   <PropertyManager2Sidebar>
-    <CompanyLayer />
+    <Settings2 basePath="/propertymanager" />
   </PropertyManager2Sidebar>
 } />
 <Route exact path='/tenantcompanylayer' element={
   <Tenant2Sidebar>
-    <CompanyLayer />
+    <Settings2 basePath="/tenant" />
   </Tenant2Sidebar>
 } />
 <Route exact path='/superadmincompanylayer' element={
   <Sa2Sidebar>
-    <CompanyLayer />
+    <Settings1 basePath="/superadmin" />
   </Sa2Sidebar>
 } />
 <Route exact path='/propertyownercompanylayer' element={
   <PropertyOwner2Sidebar>
-    <CompanyLayer />
+    <Settings1 basePath="/propertyowner" />
   </PropertyOwner2Sidebar>
 } />
+<Route exact path='/propertyowner/notification' element={
+  <PropertyOwner2Sidebar>
+    <NotificationLayer />
+  </PropertyOwner2Sidebar>
+} />
+
+<Route exact path='/tenant/notification-alert' element={
+  <Tenant2Sidebar>
+    <NotificationAlertLayer />
+  </Tenant2Sidebar>
+} />
+<Route exact path='/propertymanager/notification-alert' element={
+  <PropertyManager2Sidebar>
+    <NotificationAlertLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/superadmin/notification' element={
+  <Sa2Sidebar>
+    <NotificationLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/superadmin/payment-gateway' element={
+  <Sa2Sidebar>
+    <PaymentGatewayLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/tenant/payment-gateway' element={
+  <Tenant2Sidebar>
+    <PaymentGatewayLayer />
+  </Tenant2Sidebar>
+} />
+<Route exact path='/propertymanager/payment-gateway' element={
+  <PropertyManager2Sidebar>
+    <PaymentGatewayLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/propertyowner/payment-gateway' element={
+  <PropertyOwner2Sidebar>
+    <PaymentGatewayLayer />
+  </PropertyOwner2Sidebar>
+} />
+<Route exact path='/view-profile-superadmin' element={<Sa2Sidebar><ViewProfilewologo /></Sa2Sidebar>} />
+<Route exact path='/view-profile-tenant' element={<Tenant2Sidebar><ViewProfilewologo /></Tenant2Sidebar>} />
+<Route exact path='/view-profile-propertyowner' element={<PropertyOwner2Sidebar><ViewProfileLayer /></PropertyOwner2Sidebar>} />
+<Route exact path='/view-profile-propertymanager' element={<PropertyManager2Sidebar><ViewProfilewologo /></PropertyManager2Sidebar>} />
         
         <Route exact path='/email' element={<EmailPage />} />
         <Route exact path='/faq' element={<FaqPage />} />
         <Route exact path='/forgot-password' element={<ForgotPasswordPage />} />
         
         
-        
+        <Route exact path="/screening/form/:token" element={<TenantScreeningForm />} />
+<Route exact path='/tenant-screening' element={<TenantScreening />} />
+<Route exact path='/tenant-screening/list' element={<TenantScreeningList />} />
+<Route exact path='/tenant-screening/approve/:id' element={<TenantScreeningApprove />} />
 
     
         
        
 
-        <Route exact path='/testimonials' element={<TestimonialsPage />} />
+        
     
       
         <Route exact path='/maintenance' element={<MaintenancePage />} />
@@ -197,6 +278,7 @@ function App() {
         <Route exact path='/invoice-edit' element={<InvoiceEditPage />} />
         <Route exact path='/invoice-list' element={<InvoiceListPage />} />
         <Route path="/invoice-preview/:invoiceId" element={<InvoicePreviewPage />} />
+        <Route path="/prop-invoice/:invoiceId" element={<PropInvoice />} />
         <Route exact path='/kanban' element={<KanbanPage />} />
         <Route exact path='/languages' element={<LanguagePage />} />
         
@@ -208,27 +290,46 @@ function App() {
           path='/notification-alert'
           element={<NotificationAlertPage />}
         />
-        <Route exact path='/notification' element={<NotificationPage />} />
+        <Route exact path='/notification' element={
+          <Sa2Sidebar>
+            <NotificationLayer />
+          </Sa2Sidebar>
+        } />
         
-        <Route exact path='/payment-gateway' element={<PaymentGatewayPage />} />
+        <Route exact path='/payment-gateway' element={
+          <Sa2Sidebar>
+            <PaymentGatewayLayer />
+          </Sa2Sidebar>
+        } />
+        
       
         
         
       
      
 
-        <Route path='/superadmin' element={<SuperAdminSidebar />}>
-        <Route index element={<SuperAdminCombinedDashboard />} />
-        </Route>
-        <Route path='/propertyowner' element={<PropertyOwnerSidebar />} >
-          <Route index element={<PropertyOwnerCombinedDashboard />} />
-        </Route>
-        <Route path='/tenant' element={<TenantSidebar />} >
-          <Route index element={<TenantCombinedDashboard />} />
-        </Route> 
-        <Route path='/propertymanager' element={<PropertyManagerSidebar />} >
-          <Route index element={<PropertyManagerCombinedDashboard />} />
-        </Route> 
+        
+        <Route exact path='/superadmin-calender-main' element={
+  <Sa2Sidebar>
+    <CalendarMainLayer />
+  </Sa2Sidebar>
+} />
+<Route exact path='/propertyowner-calender-main' element={
+  <PropertyOwner2Sidebar>
+    <CalendarMainLayer />
+  </PropertyOwner2Sidebar>
+} />
+<Route exact path='/propertymanager-calendar-main' element={
+  <PropertyManager2Sidebar>
+    <CalendarMainLayer />
+  </PropertyManager2Sidebar>
+} />
+<Route exact path='/tenant-calendar-main' element={
+  <Tenant2Sidebar>
+    <CalendarMainLayer/>
+  </Tenant2Sidebar>
+}/>
+
     
     
         
@@ -236,7 +337,10 @@ function App() {
         
         
         
-        
+        <Route path='/superadmin' element={<ErrorLayer />} ></Route>
+        <Route path='/propertyowner' element={<ErrorLayer />} ></Route>
+        <Route path='/tenant' element={<ErrorLayer />} ></Route> 
+        <Route path='/propertymanager' element={<ErrorLayer />} ></Route>
         <Route exact path='/terms-condition' element={<TermsConditionPage />} />
         
        
@@ -255,14 +359,18 @@ function App() {
         
         
         <Route exact path='/view-profile' element={<ViewProfilePage />} />
+        <Route exact path='/subscription-packages' element={<SubscriptionPackages />} />
+        <Route path="/subscription/success" element={<SubscriptionSuccess />} />
        
         
        
       
 
         
+        <Route exact path='/subscription' element={<SubscriptionPage />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ProfileProvider>
   );
 }
 
